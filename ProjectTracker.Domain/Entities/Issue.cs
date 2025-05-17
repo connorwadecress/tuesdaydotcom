@@ -10,7 +10,7 @@ namespace ProjectTracker.Domain.Entities
         public DateTime? DeadlineDate { get; set; }
 
         public int GroupID { get; set; }
-        public Group Group { get; set; } = null!;
+        public virtual Group Group { get; set; } = null!;
         public int NextID { get; set; }
     }
 }
