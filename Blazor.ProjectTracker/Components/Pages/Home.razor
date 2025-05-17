@@ -134,5 +134,5 @@ List<Tag> { mlTag, csharpTag, azureTag } },
     }
 
     private void OnRowClicked(Project p) => Navigation.NavigateTo($"/project/{p.Id}");
-    private void AddProject() { /* placeholder */ }
+    private void AddProject() { Navigation.NavigateTo("/create-project"); }
 }

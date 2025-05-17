@@ -1,75 +1,77 @@
-﻿@page "/popup-component"
+﻿@page "/create-project"
+@using global::ProjectTracker.Application.Interfaces
+@rendermode InteractiveServer
+@inject IProjectService ProjectService;
 
-<div class="popup-overlay @(IsVisible ? "visible" : "hidden")">
-    <div class="popup-container">
-        <div class="popup-header">
-            <h2>Create a Project</h2>
-            <button class="close-button" @onclick="ClosePopup">×</button>
+<h2>Create a Project</h2>
+
+<div class="popup-container">
+    <div class="popup-body">
+        <div class="form-group">
+            <label for="project-name">Name</label>
+            <input type="text" id="project-name" class="form-control" @bind="ProjectName" />
         </div>
-        <div class="popup-body">
-            <div class="form-group">
-                <label for="project-name">Name</label>
-                <input type="text" id="project-name" class="form-control" @bind="ProjectName" />
+
+        <div class="form-group">
+            <label for="project-description">Description</label>
+            <textarea id="project-description" class="form-control" rows="5" @bind="ProjectDescription"></textarea>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group half-width">
+                <label for="project-status">Status</label>
+                <select id="project-status" class="form-control" @bind="ProjectStatus">
+                    <option value="Proposed">Proposed</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="On Hold">On Hold</option>
+                    <option value="Completed">Completed</option>
+                </select>
             </div>
 
-            <div class="form-group">
-                <label for="project-description">Description</label>
-                <textarea id="project-description" class="form-control" rows="5" @bind="ProjectDescription"></textarea>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group half-width">
-                    <label for="project-status">Status</label>
-                    <select id="project-status" class="form-control" @bind="ProjectStatus">
-                        <option value="Proposed">Proposed</option>
-                        <option value="In Progress">In Progress</option>
-                        <option value="On Hold">On Hold</option>
-                        <option value="Completed">Completed</option>
-                    </select>
+            <div class="form-group half-width">
+                <label for="deadline-date">Deadline Date</label>
+                <div class="date-input-wrapper">
+                    <input type="date" id="deadline-date" class="form-control" @bind="DeadlineDate" />
+                    <span class="calendar-icon">
+                        <!-- SVG calendar icon -->
+                    </span>
                 </div>
-
-                <div class="form-group half-width">
-                    <label for="deadline-date">Deadline Date</label>
-                    <div class="date-input-wrapper">
-                        <input type="date" id="deadline-date" class="form-control" @bind="DeadlineDate" />
-                        <span class="calendar-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                                <line x1="16" y1="2" x2="16" y2="6"></line>
-                                <line x1="8" y1="2" x2="8" y2="6"></line>
-                                <line x1="3" y1="10" x2="21" y2="10"></line>
-                            </svg>
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="tag-dropdown">
-                    <select id="project-tag" class="form-control" @bind="SelectedTag">
-                        <option value="">Add a Tag</option>
-                        <option value="Development">Development</option>
-                        <option value="Design">Design</option>
-                        <option value="Marketing">Marketing</option>
-                        <option value="Research">Research</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="tag-list">
-                @foreach (var tag in Tags)
-                {
-                    <div class="tag">
-                        @tag
-                        <button class="remove-tag" @onclick="@(() => RemoveTag(tag))">×</button>
-                    </div>
-                }
-            </div>
-
-            <div class="form-actions">
-                <button class="create-button" @onclick="CreateProject">Create</button>
             </div>
         </div>
+
+        <div class="form-group">
+            <div class="tag-dropdown">
+                <select id="project-tag" class="form-control" @bind="SelectedTag">
+                    <option value="">Add a Tag</option>
+                    <option value="IoT">IoT</option>
+                    <option value="Raspberry Pi">Raspberry Pi</option>
+                    <option value="C#">C#</option>
+                    <option value="React">React</option>
+                    <option value="Azure">Azure</option>
+                    <option value="ML">ML</option>
+                    <option value="Flutter">Flutter</option>
+                    <option value="PostgreSQL">PostgreSQL</option>
+                    <option value="Docker">Docker</option>
+                    <option value="Rust">Rust</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="tag-list">
+            @foreach (var tag in Tags)
+            {
+                <div class="tag">
+                    @tag
+                    <button class="remove-tag" @onclick="@(() => RemoveTag(tag))">×</button>
+                </div>
+            }
+        </div>
+
+        <div class="form-actions">
+            <button class="cancel-button" @onclick="Cancel">Cancel</button>
+            <button class="create-button" @onclick="CreateProject">Create</button>
+        </div>
+
     </div>
 </div>
 
@@ -225,17 +227,25 @@
         .create-button:hover {
             background-color: #303f9f;
         }
+
+    .cancel-button {
+        background-color: #888;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 10px 24px;
+        font-weight: 500;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+
+        .cancel-button:hover {
+            background-color: #777;
+        }
 </style>
 
 @code {
-    [Parameter]
-    public bool IsVisible { get; set; } = true;
-
-    [Parameter]
-    public EventCallback<bool> IsVisibleChanged { get; set; }
-
-    [Parameter]
-    public EventCallback<ProjectModel> OnProjectCreated { get; set; }
+    @inject NavigationManager Navigation
 
     private string ProjectName { get; set; } = "";
     private string ProjectDescription { get; set; } = "";
@@ -244,16 +254,36 @@
     private string SelectedTag { get; set; } = "";
     private List<string> Tags { get; set; } = new List<string>();
 
-    private async Task ClosePopup()
+    private List<Tag> dbTags { get; set; } = new();
+
+    protected override void OnInitialized()
     {
-        IsVisible = false;
-        await IsVisibleChanged.InvokeAsync(IsVisible);
+        var iotTag = new Tag { Name = "IoT", Color = 0x2ecc71, IsFontBlack = false };
+        var piTag = new Tag { Name = "Raspberry Pi", Color = 0x3498db, IsFontBlack = false };
+        var csharpTag = new Tag { Name = "C#", Color = 0xe67e22, IsFontBlack = true };
+        var reactTag = new Tag { Name = "React", Color = 0x61dafb, IsFontBlack = true };
+        var azureTag = new Tag { Name = "Azure", Color = 0x0078d4, IsFontBlack = true };
+        var mlTag = new Tag { Name = "ML", Color = 0x9b59b6, IsFontBlack = false };
+        var flutterTag = new Tag { Name = "Flutter", Color = 0x42a5f5, IsFontBlack = true };
+        var postgresTag = new Tag { Name = "PostgreSQL", Color = 0x336791, IsFontBlack = false };
+        var dockerTag = new Tag { Name = "Docker", Color = 0x0db7ed, IsFontBlack = true };
+        var rustTag = new Tag { Name = "Rust", Color = 0xde8615, IsFontBlack = true };
+
+        dbTags = new List<Tag>
+        {
+            iotTag, piTag, csharpTag, reactTag, azureTag,
+            mlTag, flutterTag, postgresTag, dockerTag, rustTag
+        };
     }
 
     private void RemoveTag(string tag)
     {
         Tags.Remove(tag);
-        StateHasChanged();
+    }
+
+    private void Cancel()
+    {
+        Navigation.NavigateTo("/");
     }
 
     private void AddTag()
@@ -262,7 +292,6 @@
         {
             Tags.Add(SelectedTag);
             SelectedTag = "";
-            StateHasChanged();
         }
     }
 
@@ -274,18 +303,20 @@
         }
     }
 
-    private async Task CreateProject()
+    private async void CreateProject()
     {
-        var project = new ProjectModel
+        var newTag = dbTags.FirstOrDefault(tag => tag.Name == SelectedTag);
+        var project = new Project
         {
             Name = ProjectName,
             Description = ProjectDescription,
             Status = ProjectStatus,
             DeadlineDate = DeadlineDate,
-            Tags = new List<string>(Tags)
+            Tags = newTag is not null ? new List<Tag> { newTag } : new List<Tag>()
         };
 
-        await OnProjectCreated.InvokeAsync(project);
+        // Add saving logic here
+        await ProjectService.CreateAsync(project, CancellationToken.None);
 
         // Reset form
         ProjectName = "";
@@ -293,16 +324,6 @@
         ProjectStatus = "Proposed";
         DeadlineDate = null;
         Tags.Clear();
-
-        await ClosePopup();
-    }
-
-    public class ProjectModel
-    {
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string Status { get; set; }
-        public DateTime? DeadlineDate { get; set; }
-        public List<string> Tags { get; set; }
+        Navigation.NavigateTo("/");
     }
 }
