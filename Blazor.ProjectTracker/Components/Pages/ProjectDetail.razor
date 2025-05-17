@@ -3,14 +3,14 @@
 @using global::ProjectTracker.Application.Services
 @using global::ProjectTracker.Domain.Entities
 @inject IBoardService BoardService
+@inject IProjectService ProjectService;
 
 <MudText Typo="Typo.h4">Boards for Project @ProjectId</MudText>
 
-@foreach (var board in Boards)
-{
-    <MudText Typo="Typo.h6">@board.Name</MudText>
-    <KanbanBoard Groups="@board.Groups" OnIssueMoved="HandleIssueMoved" />
-}
+    <MudText Typo="Typo.h6">Name:        @Project.Name</MudText>
+    <MudText Typo="Typo.h6">Description:      @Project.Description</MudText>
+    <MudText Typo="Typo.h6">Status:     @Project.Status</MudText>
+    @* <KanbanBoard Groups="@board.Groups" OnIssueMoved="HandleIssueMoved" /> *@
 
 @code {
     [Parameter] public int ProjectId { get; set; }
@@ -22,7 +22,16 @@
     {
         var allBoards = await BoardService.GetAllAsync(default);
         Boards = allBoards.Where(x => x.ProjectID == ProjectId).ToList();
-    }
+        Project = await ProjectService.GetByIdAsync(ProjectId, default);
+        Project = new Project()
+        {
+            DateCreated = DateTime.Now,
+            DeadlineDate = DateTime.Now.AddMonths(3),
+            Description = "Guaming",
+            Name = "SANTS",
+            Status = "On Schedule"
+        };
+}
 
     private Task HandleIssueMoved((Issue issue, Group newGroup) change)
     {
