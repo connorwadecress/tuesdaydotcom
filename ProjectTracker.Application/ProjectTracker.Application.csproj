@@ -4,15 +4,12 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>ProjectTrakcer.Application</RootNamespace>
+        <RootNamespace>ProjectTracker.Application</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Services\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\ProjectTracker.Domain\ProjectTracker.Domain.csproj" />
+      <ProjectReference Include="..\ProjectTracker.Infrastructure\ProjectTracker.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

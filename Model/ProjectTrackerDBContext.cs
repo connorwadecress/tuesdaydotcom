@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ProjectTracker.Model.Models;
+using WPF.ProjectTracker.Model.Models;
 
-namespace ProjectTracker.Model
+namespace WPF.ProjectTracker.Model
 {
     public class ProjectTrackerDBContext : DbContext
     {
