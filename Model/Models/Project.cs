@@ -1,10 +1,7 @@
-﻿using ProjectTracker.Model.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Text;
 
-namespace ProjectTracker.Model.Models
+namespace WPF.ProjectTracker.Model.Models
 {
     public class Project : DomainObjectWithTag, IItem
     {

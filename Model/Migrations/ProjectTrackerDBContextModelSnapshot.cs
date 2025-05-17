@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectTracker.Model;
+using WPF.ProjectTracker.Model;
 
 namespace ProjectTracker.Model.Migrations
 {

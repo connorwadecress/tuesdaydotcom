@@ -1,5 +1,7 @@
 using Blazor.ProjectTracker.Components;
 using MudBlazor.Services;
+using ProjectTracker.Application.Extensions;
+using ProjectTracker.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddMudServices();
+builder.Services.AddInfrastructure();
+builder.Services.AddApplication();
 
 var app = builder.Build();
 
