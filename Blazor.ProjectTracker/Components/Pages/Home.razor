@@ -1,20 +1,8 @@
 ﻿@page "/"
-@rendermode InteractiveServer
-@inject IDialogService DialogService
 
-<MudButton @onclick="OpenDialogAsync" Variant="Variant.Filled" Color="Color.Primary">
-    Open Simple Dialog
-</MudButton>
+<PageTitle>Home</PageTitle>
 
-<PopupComponent />
+<h1>Hello, world!</h1>
+<p>Welcome to your new app.</p>
 
-@code {
-
-    private Task OpenDialogAsync()
-    {
-        Console.WriteLine("here");
-        var options = new DialogOptions { CloseOnEscapeKey = true };
-
-        return DialogService.ShowAsync<PopupComponent>("Simple Dialog", options);
-    }
-}
+<NavLink class="btn btn-primary" href="/create-project">Create Project</NavLink>
