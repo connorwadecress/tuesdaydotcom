@@ -108,3 +108,8 @@ ehthumbs.db
 ## Local secrets (optional)
 secrets.json
 appsettings.*.local.json
+
+# SQLite database files
+Blazor.ProjectTracker/ProjectTracker.db
+Blazor.ProjectTracker/ProjectTracker.db-shm
+Blazor.ProjectTracker/ProjectTracker.db-wal
