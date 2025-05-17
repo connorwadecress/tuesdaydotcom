@@ -1,31 +1,44 @@
-﻿
-
-<MudPaper Class="pa-2 my-2 d-flex flex-column gap-1" Elevation="2" Style="cursor: grab;">
-    <MudText Typo="Typo.subtitle2" Bold="true">@Issue.Name</MudText>
-    <MudText Typo="Typo.caption">@Issue.Description</MudText>
+﻿<MudPaper Class="pa-4 my-3 d-flex flex-column gap-2 rounded-lg shadow-sm"
+          Elevation="3"
+          Style="cursor: grab; min-width: 250px; border-left: 5px solid #1976d2;">
+    <MudText Typo="Typo.h6" Bold="true" Class="mb-1 text-primary">@Issue.Name</MudText>
+    <MudText Typo="Typo.body2" Class="mb-2 text-secondary">@Issue.Description</MudText>
 
     @if (Issue.Tags?.Any() == true)
     {
-        <MudStack Row="true" Spacing="1">
+        <MudStack Row="true" Spacing="1" Class="mb-2 flex-wrap">
             @foreach (var tag in Issue.Tags)
             {
-                <MudChip T="string" Color="Color.Primary" Size="Size.Small">@tag.Name</MudChip>
+                <MudChip T="string" Color="Color.Info" Variant="Variant.Outlined" Size="Size.Small"
+                         Class="me-1 mb-1" Style="font-size:0.85em;">
+                    @tag.Name
+                </MudChip>
             }
         </MudStack>
     }
 
     <MudDivider Class="my-2" />
 
-    <MudSelect Label="Move to" @bind-Value="selectedGroupId" Dense>
-        @foreach (var g in AllGroups)
-        {
-            <MudSelectItem Value="@g.Id">@g.Name</MudSelectItem>
-        }
-    </MudSelect>
+    <MudStack Row="true" Spacing="2" AlignItems="AlignItems.Center" JustifyContent="space-between">
+        <MudSelect Label="Move to"
+                   @bind-Value="selectedGroupId"
+                   Dense
+                   Class="flex-grow-1 me-2"
+                   Style="min-width: 120px;">
+            @foreach (var g in AllGroups)
+            {
+                <MudSelectItem Value="@g.Id">@g.Name</MudSelectItem>
+            }
+        </MudSelect>
 
-    <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="MoveIssue" Size="Size.Small">
-        Move
-    </MudButton>
+        <MudButton Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   OnClick="MoveIssue"
+                   Size="Size.Small"
+                   Class="rounded-pill px-3">
+            <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Class="me-1" /> Move
+        </MudButton>
+    </MudStack>
 </MudPaper>
 
 @code {
@@ -48,6 +61,8 @@
         if (targetGroup != null && targetGroup.Id != Group.Id)
         {
             await OnMove.InvokeAsync((Issue, targetGroup));
+            Group = targetGroup;
+            selectedGroupId = targetGroup.Id;
         }
     }
 }
