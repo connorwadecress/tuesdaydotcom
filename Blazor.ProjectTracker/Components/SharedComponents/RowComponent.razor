@@ -1,12 +1,13 @@
-﻿@using System.Globalization
+﻿@using global::ProjectTracker.Domain.Entities@using System.Globalization
 
 <tr @onclick="HandleClick" class="project-row">
     <td>@Title</td>
     <td>
-        @for (int i = 0; i < Tags.Count; i++)
+        @foreach (var tag in Tags)
         {
-            <span class="tag-pill" style="background:@TagColors[i];">
-                @Tags[i]
+            <span class="tag-pill"
+                  style="background:@ToHex(tag.Color); color:@(tag.IsFontBlack ? "black" : "white")">
+                @tag.Name
             </span>
         }
     </td>
@@ -15,16 +16,20 @@
 </tr>
 
 @code {
-    [Parameter] public string            Title       { get; set; } = string.Empty;
-    [Parameter] public List<string>      Tags        { get; set; } = new();
-    [Parameter] public List<string>      TagColors   { get; set; } = new();   //   ↳ same length as Tags
-    [Parameter] public DateTime          Date        { get; set; }
-    [Parameter] public string            Status      { get; set; } = string.Empty;
-    [Parameter] public EventCallback     OnClick     { get; set; }
+    [Parameter] public string Title { get; set; } = string.Empty;
+    [Parameter] public List<Tag> Tags { get; set; } = new();
+    [Parameter] public string Status { get; set; } = string.Empty;
+    [Parameter] public DateTime Date { get; set; }
+    [Parameter] public EventCallback OnClick { get; set; }
 
     private async Task HandleClick()
     {
         if (OnClick.HasDelegate)
             await OnClick.InvokeAsync(null);
+    }
+
+    private static string ToHex(int color)
+    {
+        return $"#{color:X6}";
     }
 }
