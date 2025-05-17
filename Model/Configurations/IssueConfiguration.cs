@@ -1,11 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ProjectTracker.Model.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using WPF.ProjectTracker.Model.Models;
 
-namespace ProjectTracker.Model.Configurations
+namespace WPF.ProjectTracker.Model.Configurations
 {
     class IssueConfiguration : IEntityTypeConfiguration<Issue>
     {
