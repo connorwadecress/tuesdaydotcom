@@ -1,0 +1,25 @@
+﻿@using System.Collections.ObjectModel
+
+
+@if (Groups != null)
+{
+    <MudPaper Class="d-flex overflow-x-auto p-4 gap-4" Style="min-height: 70vh;">
+        @foreach (var group in Groups)
+        {
+            <KanbanColumn 
+                Group="group" 
+                AllGroups="@Groups.ToList()" />
+        }
+    </MudPaper>
+}
+
+@code {
+    [Parameter] public ObservableCollection<Group>? Groups { get; set; }
+    [Parameter] public EventCallback<(Issue issue, Group targetGroup)> OnIssueMoved { get; set; }
+
+    private async Task MoveIssueAsync(Issue issue, Group newGroup)
+    {
+        issue.GroupID = newGroup.Id;
+        await OnIssueMoved.InvokeAsync((issue, newGroup));
+    }
+}

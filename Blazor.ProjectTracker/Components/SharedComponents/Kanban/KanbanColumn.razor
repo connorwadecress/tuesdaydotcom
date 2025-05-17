@@ -1,0 +1,26 @@
+﻿@using System.Collections.ObjectModel
+
+<MudPaper Class="p-3" Style="width: 300px; min-height: 500px;" Elevation="3">
+    <MudText Typo="Typo.h6">@Group.Name</MudText>
+    <MudDivider />
+
+    @foreach (var issue in Group.Issues)
+    {
+        <KanbanCard 
+            Issue="issue" 
+            Group="Group" 
+            AllGroups="AllGroups" 
+            />
+    }
+
+</MudPaper>
+
+@code {
+    [Parameter] public Group Group { get; set; }
+    [Parameter] public EventCallback<(Issue issue, Group targetGroup)> OnMoveIssue { get; set; }
+    [Parameter] public List<Group> AllGroups { get; set; }
+
+    public ObservableCollection<Issue> Issues { get; set; } // inside Group
+
+
+}
