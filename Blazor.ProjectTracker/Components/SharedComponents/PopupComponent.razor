@@ -1,4 +1,5 @@
 ﻿@page "/create-project"
+@rendermode InteractiveServer
 
 <h2>Create a Project</h2>
 
@@ -59,8 +60,10 @@
         </div>
 
         <div class="form-actions">
+            <button class="cancel-button" @onclick="Cancel">Cancel</button>
             <button class="create-button" @onclick="CreateProject">Create</button>
         </div>
+
     </div>
 </div>
 
@@ -216,9 +219,26 @@
         .create-button:hover {
             background-color: #303f9f;
         }
+
+    .cancel-button {
+        background-color: #888;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 10px 24px;
+        font-weight: 500;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+
+        .cancel-button:hover {
+            background-color: #777;
+        }
 </style>
 
 @code {
+    @inject NavigationManager Navigation
+
     private string ProjectName { get; set; } = "";
     private string ProjectDescription { get; set; } = "";
     private string ProjectStatus { get; set; } = "Proposed";
@@ -229,6 +249,11 @@
     private void RemoveTag(string tag)
     {
         Tags.Remove(tag);
+    }
+
+    private void Cancel()
+    {
+        Navigation.NavigateTo("/");
     }
 
     private void AddTag()
@@ -267,6 +292,7 @@
         ProjectStatus = "Proposed";
         DeadlineDate = null;
         Tags.Clear();
+        Navigation.NavigateTo("/");
     }
 
     public class ProjectModel
