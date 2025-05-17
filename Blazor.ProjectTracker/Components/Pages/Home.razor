@@ -1,68 +1,166 @@
 ﻿@page "/"
 @using Blazor.ProjectTracker.Components.SharedComponents
+@using System.Globalization
 
-<h3 class="mb-4">Project Overview</h3>
+<div class="container-fluid py-3" style="background-color:#1a1a1a;color:#ffffff;min-height:100vh;">
+    <h1 class="display-4 mb-5 ps-2">My Projects</h1>
 
-<table class="table table-sm table-bordered">
-    <thead class="table-light">
-        <tr>
-            <th>Title</th>
-            <th>Date</th>
-            <th>Tags</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var p in Projects)
+    <!-- ───── Filter Controls ───── -->
+    <div class="row mb-4 gx-3 gy-2 align-items-center">
+        <!-- Project name -->
+        <div class="col-4">
+            <div class="input-group">
+                <span class="input-group-text bg-dark border-secondary text-light">
+                    <i class="bi bi-search"></i>
+                </span>
+                <input class="form-control bg-dark border-secondary text-light"
+                       placeholder="Search Projects"
+                       @bind="ProjectNameFilter"
+                       @bind:event="oninput" />
+            </div>
+        </div>
+
+        <!-- Tag -->
+        <div class="col-3">
+            <select class="form-select bg-dark border-secondary text-light"
+                    @bind="SelectedTag"
+                    @bind:event="onchange">
+                <option value="">Tag Filter</option>
+                @foreach (var tag in AllTags.Distinct(StringComparer.OrdinalIgnoreCase).OrderBy(t => t))
+                {
+                    <option value="@tag">@tag</option>
+                }
+            </select>
+        </div>
+
+        <!-- Status Filter -->
+        <div class="col-3">
+            <select class="form-select bg-dark border-secondary text-light"
+                    @bind="StatusFilter"
+                    @bind:event="onchange">
+                <option value="">Status Filter</option>
+                <option value="Active">Active</option>
+                <option value="Completed">Completed</option>
+                <option value="On Hold">On Hold</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- ───── Buttons & Count ───── -->
+    <div class="mb-4 d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
+        <button class="btn btn-outline-light" @onclick="ClearFilters">Clear Filters</button>
+        <span class="text-secondary">Showing @DisplayedProjects.Count of @AllProjects.Count projects</span>
+    </div>
+
+    <!-- ───── Project Rows (using RowComponent) ───── -->
+    @foreach (var project in DisplayedProjects)
         {
-            <tr>
-                <td>@p.Title</td>
-                <td>@p.Date:yyyy-MM-dd</td>
-                <td>
-                    @foreach (var tag in p.Tags)
-                    {
-                        <MudChip Class="me-1 mb-1" Color="Color.Primary" Variant="Variant.Filled">
-                            @tag
-                        </MudChip>
-                    }
-                </td>
-            </tr>
+            <RowComponent Title="@project.Title"
+                          Tags="@project.Tags"
+                          Date="@project.Date" />
         }
-    </tbody>
-</table>
+</div>
 
 @code {
-    public record Project(string Title, DateTime Date, RowComponent.TagDto[] Tags);
+    public record Project(string Title, DateTime Date, RowComponent.TagDto[] Tags, string Status, string? Description = null);
 
-    private readonly List<Project> Projects =
-    [
-        new ("Smart Home Controller",
-              new DateTime(2024, 6, 10),
-              [ new RowComponent.TagDto("IoT",          "#2ecc71"),
-                new RowComponent.TagDto("Raspberry Pi", "#3498db"),
-                new RowComponent.TagDto("C#",           "#e67e22") ]),
+    private List<Project> AllProjects = new();
+    private List<Project> DisplayedProjects = new();
 
-        new ("QBee Query Builder",
-              new DateTime(2024, 9, 30),
-              [ new RowComponent.TagDto("Blazor",     "#9b59b6"),
-                new RowComponent.TagDto("MySQL",      "#2980b9"),
-                new RowComponent.TagDto("OpenAI",     "#27ae60") ]),
+    private string _projectNameFilter = string.Empty;
+    private string _selectedTag       = string.Empty;
+    private string _statusFilter      = string.Empty;
 
-        new ("Game Companion App",
-              new DateTime(2025, 1, 14),
-              [ new RowComponent.TagDto("Unity",      "#34495e"),
-                new RowComponent.TagDto("Multiplayer","#1abc9c"),
-                new RowComponent.TagDto("Ranking",    "#f39c12") ]),
+    private string ProjectNameFilter
+    {
+        get => _projectNameFilter;
+        set
+        {
+            if (_projectNameFilter != value)
+            {
+                _projectNameFilter = value;
+                ApplyFilters();
+            }
+        }
+    }
 
-        new ("B2C Auth Flow Redesign",
-              new DateTime(2025, 2, 25),
-              [ new RowComponent.TagDto("Azure",      "#007fff"),
-                new RowComponent.TagDto("Security",   "#e74c3c"),
-                new RowComponent.TagDto("JWT",        "#16a085") ]),
+    private string SelectedTag
+    {
+        get => _selectedTag;
+        set
+        {
+            if (_selectedTag != value)
+            {
+                _selectedTag = value;
+                ApplyFilters();
+            }
+        }
+    }
 
-        new ("Senior Services Platform",
-              new DateTime(2025, 3, 18),
-              [ new RowComponent.TagDto("Elderly UX", "#8e44ad"),
-                new RowComponent.TagDto("Forms",      "#f1c40f"),
-                new RowComponent.TagDto("CareTech",   "#d35400") ])
-    ];
+    private string StatusFilter
+    {
+        get => _statusFilter;
+        set
+        {
+            if (_statusFilter != value)
+            {
+                _statusFilter = value;
+                ApplyFilters();
+            }
+        }
+    }
+
+    private IEnumerable<string> AllTags =>
+        AllProjects.SelectMany(p => p.Tags.Select(t => t.Text));
+
+    protected override void OnInitialized()
+    {
+        AllProjects = new List<Project>
+        {
+            new("Smart Home Controller", new DateTime(2024, 6, 10),
+                [ new("IoT", "#2ecc71"), new("Raspberry Pi", "#3498db"), new("C#", "#e67e22") ],
+                "Completed", "Home automation system"),
+            new("QBee Query Builder", new DateTime(2024, 9, 30),
+                [ new("Blazor", "#9b59b6"), new("MySQL", "#2980b9"), new("OpenAI", "#27ae60") ],
+                "Active", "Visual SQL query builder"),
+            new("Game Companion App", new DateTime(2025, 1, 14),
+                [ new("Unity", "#34495e"), new("Multiplayer", "#1abc9c"), new("Ranking", "#f39c12") ],
+                "On Hold", "Leaderboard and stats tracker"),
+            new("B2C Auth Flow Redesign", new DateTime(2025, 2, 25),
+                [ new("Azure", "#007fff"), new("Security", "#e74c3c"), new("JWT", "#16a085") ],
+                "Completed", "Improve authentication flows"),
+            new("Senior Services Platform", new DateTime(2025, 3, 18),
+                [ new("Elderly UX", "#8e44ad"), new("Forms", "#f1c40f"), new("CareTech", "#d35400") ],
+                "Active", "Accessible services platform")
+        };
+
+        DisplayedProjects = AllProjects.ToList();
+    }
+
+    private void ApplyFilters()
+    {
+        IEnumerable<Project> filtered = AllProjects;
+
+        if (!string.IsNullOrWhiteSpace(ProjectNameFilter))
+            filtered = filtered.Where(p =>
+                p.Title.Contains(ProjectNameFilter, StringComparison.OrdinalIgnoreCase));
+
+        if (!string.IsNullOrWhiteSpace(SelectedTag))
+            filtered = filtered.Where(p =>
+                p.Tags.Any(t =>
+                    string.Equals(t.Text, SelectedTag, StringComparison.OrdinalIgnoreCase)));
+
+        if (!string.IsNullOrWhiteSpace(StatusFilter))
+            filtered = filtered.Where(p =>
+                string.Equals(p.Status, StatusFilter, StringComparison.OrdinalIgnoreCase));
+
+        DisplayedProjects = filtered.ToList();
+    }
+
+    private void ClearFilters()
+    {
+        _projectNameFilter = _selectedTag = _statusFilter = string.Empty;
+        DisplayedProjects = AllProjects.ToList();
+        DisplayedProjects = new List<Project>();
+    }
 }
