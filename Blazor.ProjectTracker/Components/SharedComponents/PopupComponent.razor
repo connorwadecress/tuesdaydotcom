@@ -245,6 +245,7 @@
     private DateTime? DeadlineDate { get; set; }
     private string SelectedTag { get; set; } = "";
     private List<string> Tags { get; set; } = new List<string>();
+    private List<Tag> dbTags { get; set; } = [new Tag { Name = "efcore" }, new Tag { Name = "gaming" }];
 
     private void RemoveTag(string tag)
     {
@@ -275,13 +276,14 @@
 
     private void CreateProject()
     {
-        var project = new ProjectModel
+        var newTag = dbTags.FirstOrDefault(tag => tag.Name == SelectedTag);
+        var project = new Project
         {
             Name = ProjectName,
             Description = ProjectDescription,
             Status = ProjectStatus,
             DeadlineDate = DeadlineDate,
-            Tags = new List<string>(Tags)
+            Tags = newTag is not null ? new List<Tag> { newTag } : new List<Tag>()
         };
 
         // Add saving logic here
@@ -293,14 +295,5 @@
         DeadlineDate = null;
         Tags.Clear();
         Navigation.NavigateTo("/");
-    }
-
-    public class ProjectModel
-    {
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string Status { get; set; }
-        public DateTime? DeadlineDate { get; set; }
-        public List<string> Tags { get; set; }
     }
 }
