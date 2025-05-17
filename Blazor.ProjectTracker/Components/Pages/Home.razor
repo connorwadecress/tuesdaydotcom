@@ -1,25 +1,27 @@
 ﻿@page "/"
+@rendermode InteractiveServer
+@using Blazor.ProjectTracker.Components.SharedComponents
+@using global::ProjectTracker.Domain.Entities
+@inject NavigationManager Navigation
 
 <style>
-    .tag-pill {
-        display:inline-block;
-        margin-right:4px;
-        padding:2px 6px;
-        border-radius:4px;
-        color:white;
-        font-size:0.85em;
-        white-space:nowrap;
-    }
-    .project-row { cursor:pointer; transition:background-color .2s }
-    .project-row:hover { background:#343a40 }
+    .table-dark           { width: 100% !important; }
+    .tag-pill             { display:inline-block; margin-right:4px; padding:2px 6px;
+                             border-radius:4px; font-size:0.85em; white-space:nowrap; }
+    .project-row          { cursor:pointer; transition:background-color .2s; }
+    .project-row:hover    { background:#343a40; }
 </style>
 
 <div style="background:#1a1a1a;color:#fff;min-height:100vh;padding:2rem;">
-    <div class="d-flex align-items-center justify-content-between mb-4">
+    <div class="d-flex align-items-center mb-4">
         <h1 class="display-4 m-0">My Projects</h1>
-        <button class="btn btn-outline-light p-0"
-                style="width:38px;height:38px;font-size:1.5rem;line-height:1;"
-                title="Add project" @onclick="AddProject">+</button>
+
+        <MudButton Variant="Variant.Outlined" Color="Color.Primary" Class="ms-auto"
+                   Style="width:38px; height:38px; font-size:1.5rem; line-height:1;"
+                   Title="Add project"
+                   OnClick="AddProject">
+            +
+        </MudButton>
     </div>
 
     <div class="d-flex justify-content-end mb-3">
@@ -32,17 +34,16 @@
                 <th style="width:30%;">Project Name</th>
                 <th style="width:30%;">Tags</th>
                 <th style="width:20%;">Status</th>
-                <th style="width:20%;">Date</th>
+                <th style="width:20%;">Date Created</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var p in Projects)
             {
-                <RowComponent Title="@p.Title"
-                              Tags="@p.Tags"
-                              TagColors="@p.TagColors"
+                <RowComponent Title="@p.Name"
+                              Tags="@p.Tags.ToList()"
                               Status="@p.Status"
-                              Date="@p.Date"
+                              Date="@p.DateCreated"
                               OnClick="() => OnRowClicked(p)" />
             }
         </tbody>
@@ -50,33 +51,34 @@
 </div>
 
 @code {
-    // simple record without TagDto
-    public record Project(
-        string Title,
-        DateTime Date,
-        List<string> Tags,
-        List<string> TagColors,
-        string Status,
-        string? Description = null);
-
     private List<Project> Projects = new();
 
     protected override void OnInitialized()
     {
-        Projects =
-        [
-            new Project(
-                "Smart Home Controller",
-                new DateTime(2024, 6, 10),
-                new() { "IoT", "Raspberry Pi", "C#" },
-                new() { "#2ecc71", "#3498db", "#e67e22" },
-                "Completed")
-        ];
+        var tag1 = new Tag { Name = "IoT", Color = 0x2ecc71, IsFontBlack = false };
+        var tag2 = new Tag { Name = "Raspberry Pi", Color = 0x3498db, IsFontBlack = false };
+        var tag3 = new Tag { Name = "C#", Color = 0xe67e22, IsFontBlack = true };
+
+        Projects = new List<Project>
+        {
+            new Project
+            {
+                Id = 1,
+                Name = "Smart Home Controller",
+                DateCreated = new DateTime(2024, 6, 10),
+                Status = "Completed",
+                Tags = new List<Tag> { tag1, tag2, tag3 }
+            }
+        };
     }
 
-    private void OnRowClicked(Project p) =>
-        Console.WriteLine($"Project clicked: {p.Title}");
+    private void OnRowClicked(Project p)
+    {
+        Navigation.NavigateTo($"/project/{p.Id}");
+    }
 
-    private void AddProject() =>
-        Console.WriteLine("Add-project clicked.");
+    private void AddProject()
+    {
+        // Placeholder for actual add logic
+    }
 }
