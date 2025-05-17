@@ -1,0 +1,53 @@
+﻿
+
+<MudPaper Class="pa-2 my-2 d-flex flex-column gap-1" Elevation="2" Style="cursor: grab;">
+    <MudText Typo="Typo.subtitle2" Bold="true">@Issue.Name</MudText>
+    <MudText Typo="Typo.caption">@Issue.Description</MudText>
+
+    @if (Issue.Tags?.Any() == true)
+    {
+        <MudStack Row="true" Spacing="1">
+            @foreach (var tag in Issue.Tags)
+            {
+                <MudChip T="string" Color="Color.Primary" Size="Size.Small">@tag.Name</MudChip>
+            }
+        </MudStack>
+    }
+
+    <MudDivider Class="my-2" />
+
+    <MudSelect Label="Move to" @bind-Value="selectedGroupId" Dense>
+        @foreach (var g in AllGroups)
+        {
+            <MudSelectItem Value="@g.Id">@g.Name</MudSelectItem>
+        }
+    </MudSelect>
+
+    <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="MoveIssue" Size="Size.Small">
+        Move
+    </MudButton>
+</MudPaper>
+
+@code {
+    [Parameter] public Issue Issue { get; set; }
+    [Parameter] public Group Group { get; set; }
+    [Parameter] public List<Group> AllGroups { get; set; }
+
+    [Parameter] public EventCallback<(Issue issue, Group targetGroup)> OnMove { get; set; }
+
+    private int selectedGroupId;
+
+    protected override void OnInitialized()
+    {
+        selectedGroupId = Group.Id;
+    }
+
+    private async Task MoveIssue()
+    {
+        var targetGroup = AllGroups.FirstOrDefault(g => g.Id == selectedGroupId);
+        if (targetGroup != null && targetGroup.Id != Group.Id)
+        {
+            await OnMove.InvokeAsync((Issue, targetGroup));
+        }
+    }
+}

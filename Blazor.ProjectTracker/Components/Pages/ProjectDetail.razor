@@ -1,9 +1,21 @@
 ﻿@page "/project/{ProjectId:int}"
+@rendermode InteractiveServer
 @using global::ProjectTracker.Application.Interfaces
 @using global::ProjectTracker.Application.Services
 @using global::ProjectTracker.Domain.Entities
 @inject IBoardService BoardService
 @inject IProjectService ProjectService;
+@inject NavigationManager Navigation
+
+<style>
+    .custom-project-title {
+        opacity: 0.8;
+        font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        margin-bottom:40px;
+    }
+</style>
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-6">
     <!-- Project Header -->
@@ -89,7 +101,8 @@
 
     private Task OnRowClicked(Board board)
     {
-        // Navigate or show modal
+        Navigation.NavigateTo($"/board/{board.Id}");
         return Task.CompletedTask;
     }
+
 }

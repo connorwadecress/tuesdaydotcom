@@ -1,8 +1,12 @@
 ﻿@page "/"
 @rendermode InteractiveServer
 @using Blazor.ProjectTracker.Components.SharedComponents
+@using global::ProjectTracker.Application.Services
 @using global::ProjectTracker.Domain.Entities
+@using global::ProjectTracker.Application.Interfaces
 @inject NavigationManager Navigation
+@inject IProjectService ProjectService;
+
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-6">
     <!-- Header -->
@@ -179,32 +183,10 @@
         .Distinct()
         .OrderBy(t => t);
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        var iotTag = new Tag { Name = "IoT", Color = 0x2ecc71 };
-        var piTag = new Tag { Name = "Raspberry Pi", Color = 0x3498db };
-        var csharpTag = new Tag { Name = "C#", Color = 0xe67e22, IsFontBlack = true };
-        var reactTag = new Tag { Name = "React", Color = 0x61dafb, IsFontBlack = true };
-        var azureTag = new Tag { Name = "Azure", Color = 0x0078d4, IsFontBlack = true };
-        var mlTag = new Tag { Name = "ML", Color = 0x9b59b6 };
-        var flutterTag = new Tag { Name = "Flutter", Color = 0x42a5f5, IsFontBlack = true };
-        var postgresTag = new Tag { Name = "PostgreSQL", Color = 0x336791 };
-        var dockerTag = new Tag { Name = "Docker", Color = 0x0db7ed, IsFontBlack = true };
-        var rustTag = new Tag { Name = "Rust", Color = 0xde8615, IsFontBlack = true };
-
-        Projects = new()
-        {
-            new() { Id = 1, Name = "Smart Home Controller", DateCreated = new(2024, 6, 10), Status = "Completed", Tags = new List<Tag> { iotTag, piTag, csharpTag } },
-            new() { Id = 2, Name = "Real-time Stock Dashboard", DateCreated = new(2024, 7, 2), Status = "In Progress", Tags = new List<Tag> { reactTag, azureTag } },
-            new() { Id = 3, Name = "Image Classifier API", DateCreated = new(2024, 8, 15), Status = "Paused", Tags = new List<Tag> { mlTag, dockerTag, csharpTag } },
-            new() { Id = 4, Name = "Personal Budget Tracker", DateCreated = new(2024, 9, 9), Status = "Completed", Tags = new List<Tag> { flutterTag, postgresTag } },
-            new() { Id = 5, Name = "IoT Garden Monitor", DateCreated = new(2024, 10, 21), Status = "In Progress", Tags = new List<Tag> { iotTag, piTag, rustTag } },
-            new() { Id = 6, Name = "Chatbot Customer Support", DateCreated = new(2024, 11, 30), Status = "Planning", Tags = new List<Tag> { mlTag, azureTag, reactTag } },
-            new() { Id = 7, Name = "Fitness Habit Tracker", DateCreated = new(2025, 1, 5), Status = "In Review", Tags = new List<Tag> { flutterTag, postgresTag } },
-            new() { Id = 8, Name = "Serverless Notes App", DateCreated = new(2025, 2, 17), Status = "In Progress", Tags = new List<Tag> { azureTag, reactTag } },
-            new() { Id = 9, Name = "Containerized Dev Env Setup", DateCreated = new(2025, 3, 8), Status = "Completed", Tags = new List<Tag> { dockerTag, rustTag } },
-            new() { Id = 10, Name = "Real-time Language Translator", DateCreated = new(2025, 4, 12), Status = "Planning", Tags = new List<Tag> { mlTag, csharpTag, azureTag } },
-        };
+        var projectsList = await ProjectService.GetAllAsync(default);
+        Projects = projectsList.ToList();
     }
 
     private void ClearFilters()
@@ -215,14 +197,6 @@
         DateFilter = null;
     }
 
-    private void OnRowClicked(Project p)
-    {
-        Navigation.NavigateTo($"/project/{p.Id}");
-    }
-
-    private void Refresh() => StateHasChanged();
-
-
-    private void AddProject() { /* Future implementation */ }
-}
+    private void OnRowClicked(Project p) => Navigation.NavigateTo($"/project/{p.Id}");
+    private void AddProject() { Navigation.NavigateTo("/create-project"); }
 }

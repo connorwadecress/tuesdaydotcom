@@ -1,6 +1,9 @@
 ﻿@using Blazor.ProjectTracker.Components.SharedComponents
+@using global::ProjectTracker.Application.Interfaces
+@using global::ProjectTracker.Application.Services
 @using global::ProjectTracker.Domain.Entities
 @inject NavigationManager Navigation
+@inject IProjectService ProjectService;
 
 <input type="checkbox" title="Navigation menu" class="navbar-toggler"/>
 
@@ -26,10 +29,6 @@
                 </div>
             }
         }
-
-        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="AddNewProject" Class="m-3">
-            Add Project
-        </MudButton>
     </MudNavMenu>
 </div>
 
@@ -41,24 +40,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        // projects = await ProjectService.GetAllProjectsAsync();
-        projects = new List<Project>
-        {
-            new Project()
-            {
-                Id = 1,
-                Name = "SANTS"
-            },
-            new Project()
-            {
-                Id = 2,
-                Name = "TUES"
-            },
-        };
-    }
-
-    private async Task AddNewProject()
-    {
-        
+        var projectsList = await ProjectService.GetAllAsync(default);
+        projects = projectsList.ToList();
     }
 }
