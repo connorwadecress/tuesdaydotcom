@@ -16,6 +16,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\ProjectTracker.Application\ProjectTracker.Application.csproj" />
+      <ProjectReference Include="..\ProjectTracker.Domain\ProjectTracker.Domain.csproj" />
       <ProjectReference Include="..\ProjectTracker.Infrastructure\ProjectTracker.Infrastructure.csproj" />
       <ProjectReference Include="..\WPF.ProjectTracker.ClassLibrary\WPF.ProjectTracker.ClassLibrary.csproj" />
     </ItemGroup>
