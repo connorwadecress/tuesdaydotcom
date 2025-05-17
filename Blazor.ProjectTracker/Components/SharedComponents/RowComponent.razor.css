@@ -1,0 +1,39 @@
+.row-wrapper {
+    display:flex;
+    align-items:center;
+    background:#222;
+    color:#fff;
+    min-height:38px;
+    padding:6px 12px;
+    gap:12px;                /* space between flex items */
+}
+
+/* 1️⃣ Let title take all leftover space */
+.project-title {
+    flex:1 1 auto;           /* grow & shrink */
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+/* 2️⃣ Tags stay inline, won’t grow past their size */
+.tag-container {
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+}
+
+/* 3️⃣ Date never shrinks; sticks to far right */
+.project-date {
+    flex:0 0 auto;           /* do NOT grow, do NOT shrink */
+    white-space:nowrap;
+    font-size:0.9rem;
+}
+
+.tag-pill {
+    color:#fff;
+    padding:2px 10px;
+    border-radius:12px;
+    font-size:0.8rem;
+    white-space:nowrap;
+}
