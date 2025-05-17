@@ -1,9 +1,11 @@
-﻿@page "/create-project"
+﻿@page "/create-{Type}"
 @using global::ProjectTracker.Application.Interfaces
 @rendermode InteractiveServer
 @inject IProjectService ProjectService;
+@inject IGroupService GroupService ;
+@inject IIssueService IssueService;
 
-<h2>Create a Project</h2>
+<h2>Create a @(!string.IsNullOrWhiteSpace(Type) ? Type : "Project")</h2>
 
 <div class="popup-container">
     <div class="popup-body">
@@ -18,15 +20,18 @@
         </div>
 
         <div class="form-row">
-            <div class="form-group half-width">
-                <label for="project-status">Status</label>
-                <select id="project-status" class="form-control" @bind="ProjectStatus">
-                    <option value="Proposed">Proposed</option>
-                    <option value="In Progress">In Progress</option>
-                    <option value="On Hold">On Hold</option>
-                    <option value="Completed">Completed</option>
-                </select>
-            </div>
+            @if (!string.Equals(Type, "Issue", StringComparison.OrdinalIgnoreCase))
+            {
+                <div class="form-group half-width">
+                    <label for="project-status">Status</label>
+                    <select id="project-status" class="form-control" @bind="ProjectStatus">
+                        <option value="Proposed">Proposed</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="On Hold">On Hold</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                </div>
+            }
 
             <div class="form-group half-width">
                 <label for="deadline-date">Deadline Date</label>
@@ -245,6 +250,8 @@
 </style>
 
 @code {
+    [Parameter]
+    public string? Type { get; set; }
     @inject NavigationManager Navigation
 
     private string ProjectName { get; set; } = "";
@@ -305,18 +312,43 @@
 
     private async void CreateProject()
     {
-        var newTag = dbTags.FirstOrDefault(tag => tag.Name == SelectedTag);
-        var project = new Project
-        {
-            Name = ProjectName,
-            Description = ProjectDescription,
-            Status = ProjectStatus,
-            DeadlineDate = DeadlineDate,
-            Tags = newTag is not null ? new List<Tag> { newTag } : new List<Tag>()
-        };
 
         // Add saving logic here
-        await ProjectService.CreateAsync(project, CancellationToken.None);
+        if (!string.Equals(Type, "Issue", StringComparison.OrdinalIgnoreCase))
+        {
+            var newTag = dbTags.FirstOrDefault(tag => tag.Name == SelectedTag);
+            var issue = new Issue
+            {
+                Name = ProjectName,
+                Description = ProjectDescription,
+                DeadlineDate = DeadlineDate,
+                Tags = newTag is not null ? new List<Tag> { newTag } : new List<Tag>()
+            };
+            await IssueService.CreateAsync(issue, CancellationToken.None);
+        }
+        else if (!string.Equals(Type, "Board", StringComparison.OrdinalIgnoreCase))
+        {
+            var newTag = dbTags.FirstOrDefault(tag => tag.Name == SelectedTag);
+            var group = new Group
+            {
+                Name = ProjectName,
+                
+            };
+            await GroupService.CreateAsync(group, CancellationToken.None);
+        }
+        else if (!string.Equals(Type, "Project", StringComparison.OrdinalIgnoreCase))
+        {
+            var newTag = dbTags.FirstOrDefault(tag => tag.Name == SelectedTag);
+            var project = new Project
+            {
+                Name = ProjectName,
+                Description = ProjectDescription,
+                Status = ProjectStatus,
+                DeadlineDate = DeadlineDate,
+                Tags = newTag is not null ? new List<Tag> { newTag } : new List<Tag>()
+            };
+            await ProjectService.CreateAsync(project, CancellationToken.None);
+        }
 
         // Reset form
         ProjectName = "";

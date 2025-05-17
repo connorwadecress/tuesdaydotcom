@@ -1,4 +1,5 @@
 ﻿@page "/board/{BoardId:int}"
+@rendermode InteractiveServer
 @using System.Collections.ObjectModel
 @using Blazor.ProjectTracker.Components.SharedComponents.Kanban
 @inject NavigationManager NavigationManager
@@ -78,4 +79,6 @@ else
 
         return Task.CompletedTask;
     }
+
+    private void AddIssue() { NavigationManager.NavigateTo("/create-issue/"); }
 }
