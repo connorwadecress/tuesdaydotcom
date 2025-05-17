@@ -1,0 +1,110 @@
+## Build output
+bin/
+obj/
+*/bin/
+*/obj/
+*.user
+*.suo
+*.cache
+*.dbmdl
+*.dbproj.schemaview
+*.pdb
+*.pidb
+*.svclog
+*.vsp
+*.vspx
+*.userprefs
+
+## VS/VSCode/JetBrains config
+.vscode/
+.idea/
+.vs/
+
+## Rider-specific (JetBrains)
+*.sln.iml
+.idea/
+
+## User-specific files
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+## MAUI-related
+platforms/
+*.apk
+*.ap_
+*.aab
+*.keystore
+*.xcuserstate
+*.xcworkspace
+*.entitlements
+*.xcodeproj
+*.xcconfig
+*.DS_Store
+*.nupkg
+*.app/
+*.ipa
+*.dSYM/
+*.xcarchive/
+
+## WPF / Windows Desktop
+*.exe
+*.dll
+*.appx
+*.appxbundle
+*.msix
+*.msixbundle
+
+## Logs & dumps
+*.log
+*.tlog
+*.svclog
+*.vshost.*
+*.ncrunch*
+TestResult*/
+*.TestResults
+*.coverage
+*.coveragexml
+*.crash
+
+## NuGet
+*.nupkg
+*.snupkg
+*.nuspec
+packages/
+.nuget/
+*.dll.config
+
+## ASP.NET/Blazor artifacts
+wwwroot/dist/
+wwwroot/node_modules/
+.env
+.env.local
+.env.production
+.env.*.local
+
+## Node/npm for Blazor WebAssembly (if using npm tooling)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+## Dotnet tooling
+.project/
+global.json.user
+*.dotCover
+
+## Other OS-specific
+Thumbs.db
+ehthumbs.db
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+*.swp
+*.swo
+
+## Local secrets (optional)
+secrets.json
+appsettings.*.local.json

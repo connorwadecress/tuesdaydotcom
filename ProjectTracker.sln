@@ -3,13 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectTracker", "ProjectTracker\ProjectTracker.csproj", "{2F5EE5E1-CE6D-433E-BEE3-D53807CBBB59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPF.ProjectTracker", "WPF.ProjectTracker\WPF.ProjectTracker.csproj", "{2F5EE5E1-CE6D-433E-BEE3-D53807CBBB59}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectTracker.Model", "Model\ProjectTracker.Model.csproj", "{653897D4-E45D-4581-B8C2-6777281E15AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPF.ProjectTracker.Model", "Model\WPF.ProjectTracker.Model.csproj", "{653897D4-E45D-4581-B8C2-6777281E15AF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectTracker.ClassLibrary", "ProjectTracker.ClassLibrary\ProjectTracker.ClassLibrary.csproj", "{D83DB117-BF29-467B-BE27-640A677F0F92}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPF.ProjectTracker.ClassLibrary", "WPF.ProjectTracker.ClassLibrary\WPF.ProjectTracker.ClassLibrary.csproj", "{D83DB117-BF29-467B-BE27-640A677F0F92}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectTracker.Tests", "ProjectTracker.Tests\ProjectTracker.Tests.csproj", "{0B74DB7C-C7B8-4E2A-8EB5-46C54EC6F489}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPF.ProjectTracker.Tests", "WPF.ProjectTracker.Tests\WPF.ProjectTracker.Tests.csproj", "{0B74DB7C-C7B8-4E2A-8EB5-46C54EC6F489}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WpfApp", "WpfApp", "{202E028F-2445-4AE2-8165-FCA1D46B3364}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BlazorApp", "BlazorApp", "{2A74B36D-A296-4E10-8A95-98AD9F85A3FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazor.ProjectTracker", "Blazor.ProjectTracker\Blazor.ProjectTracker.csproj", "{FE2C8CCA-C080-4CFC-B989-246DF0DD87B1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MauiApp", "MauiApp", "{9DFDA9CC-D301-481F-8E2D-5145878611AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maui.ProjectTracker", "Maui.ProjectTracker\Maui.ProjectTracker.csproj", "{FD618A91-B424-4E62-A5E6-D1FBB9AED519}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,11 +79,43 @@ Global
 		{0B74DB7C-C7B8-4E2A-8EB5-46C54EC6F489}.Release|x64.Build.0 = Release|x64
 		{0B74DB7C-C7B8-4E2A-8EB5-46C54EC6F489}.Release|x86.ActiveCfg = Release|x86
 		{0B74DB7C-C7B8-4E2A-8EB5-46C54EC6F489}.Release|x86.Build.0 = Release|x86
+		{FE2C8CCA-C080-4CFC-B989-246DF0DD87B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE2C8CCA-C080-4CFC-B989-246DF0DD87B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE2C8CCA-C080-4CFC-B989-246DF0DD87B1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FE2C8CCA-C080-4CFC-B989-246DF0DD87B1}.Debug|x64.Build.0 = Debug|Any CPU
+		{FE2C8CCA-C080-4CFC-B989-246DF0DD87B1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FE2C8CCA-C080-4CFC-B989-246DF0DD87B1}.Debug|x86.Build.0 = Debug|Any CPU
+		{FE2C8CCA-C080-4CFC-B989-246DF0DD87B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE2C8CCA-C080-4CFC-B989-246DF0DD87B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE2C8CCA-C080-4CFC-B989-246DF0DD87B1}.Release|x64.ActiveCfg = Release|Any CPU
+		{FE2C8CCA-C080-4CFC-B989-246DF0DD87B1}.Release|x64.Build.0 = Release|Any CPU
+		{FE2C8CCA-C080-4CFC-B989-246DF0DD87B1}.Release|x86.ActiveCfg = Release|Any CPU
+		{FE2C8CCA-C080-4CFC-B989-246DF0DD87B1}.Release|x86.Build.0 = Release|Any CPU
+		{FD618A91-B424-4E62-A5E6-D1FBB9AED519}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD618A91-B424-4E62-A5E6-D1FBB9AED519}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD618A91-B424-4E62-A5E6-D1FBB9AED519}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FD618A91-B424-4E62-A5E6-D1FBB9AED519}.Debug|x64.Build.0 = Debug|Any CPU
+		{FD618A91-B424-4E62-A5E6-D1FBB9AED519}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FD618A91-B424-4E62-A5E6-D1FBB9AED519}.Debug|x86.Build.0 = Debug|Any CPU
+		{FD618A91-B424-4E62-A5E6-D1FBB9AED519}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD618A91-B424-4E62-A5E6-D1FBB9AED519}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD618A91-B424-4E62-A5E6-D1FBB9AED519}.Release|x64.ActiveCfg = Release|Any CPU
+		{FD618A91-B424-4E62-A5E6-D1FBB9AED519}.Release|x64.Build.0 = Release|Any CPU
+		{FD618A91-B424-4E62-A5E6-D1FBB9AED519}.Release|x86.ActiveCfg = Release|Any CPU
+		{FD618A91-B424-4E62-A5E6-D1FBB9AED519}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F5BE75C0-F225-4EA3-A69F-EE583C415905}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2F5EE5E1-CE6D-433E-BEE3-D53807CBBB59} = {202E028F-2445-4AE2-8165-FCA1D46B3364}
+		{D83DB117-BF29-467B-BE27-640A677F0F92} = {202E028F-2445-4AE2-8165-FCA1D46B3364}
+		{0B74DB7C-C7B8-4E2A-8EB5-46C54EC6F489} = {202E028F-2445-4AE2-8165-FCA1D46B3364}
+		{653897D4-E45D-4581-B8C2-6777281E15AF} = {202E028F-2445-4AE2-8165-FCA1D46B3364}
+		{FE2C8CCA-C080-4CFC-B989-246DF0DD87B1} = {2A74B36D-A296-4E10-8A95-98AD9F85A3FE}
+		{FD618A91-B424-4E62-A5E6-D1FBB9AED519} = {9DFDA9CC-D301-481F-8E2D-5145878611AE}
 	EndGlobalSection
 EndGlobal

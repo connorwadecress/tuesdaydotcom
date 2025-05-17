@@ -9,7 +9,7 @@ namespace ProjectTracker.Model
     {
         var options = new DbContextOptionsBuilder<ProjectTrackerDBContext>();
             options.EnableSensitiveDataLogging(true);
-        options.UseSqlite("Filename=ProjectTracker.db");
+        options.UseSqlite("Filename=WPF.ProjectTracker.db");
 
         return new ProjectTrackerDBContext(options.Options);
     }
