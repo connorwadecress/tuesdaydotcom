@@ -1,0 +1,80 @@
+﻿@page "/board/{BoardId:int}"
+@using System.Collections.ObjectModel
+@inject NavigationManager NavigationManager
+
+<MudText Typo="Typo.h4">Demo Board @BoardId</MudText>
+
+@if (Groups != null)
+{
+    <KanbanBoard Groups="@Groups" OnIssueMoved="HandleIssueMoved" />
+}
+else
+{
+    <MudProgressCircular Indeterminate="true" />
+}
+
+@code {
+    [Parameter] public int BoardId { get; set; }
+
+    private ObservableCollection<Group> Groups;
+
+    protected override Task OnInitializedAsync()
+    {
+        // Hardcoded sample issues
+        var todo = new Group
+        {
+            Id = 1,
+            Name = "To Do",
+            Issues = new ObservableCollection<Issue>
+            {
+                new Issue { Id = 1, Name = "Fix bug", Description = "Null ref on save" },
+                new Issue { Id = 2, Name = "Write tests", Description = "Coverage for login" }
+            }
+        };
+
+        var doing = new Group
+        {
+            Id = 2,
+            Name = "Doing",
+            Issues = new ObservableCollection<Issue>
+            {
+                new Issue { Id = 3, Name = "Refactor dashboard", Description = "Split components" }
+            }
+        };
+
+        var done = new Group
+        {
+            Id = 3,
+            Name = "Done",
+            Issues = new ObservableCollection<Issue>
+            {
+                new Issue { Id = 4, Name = "Deploy v1", Description = "Shipped to prod" }
+            }
+        };
+
+        Groups = new ObservableCollection<Group> { todo, doing, done };
+
+        return Task.CompletedTask;
+    }
+
+    private Task HandleIssueMoved((Issue issue, Group newGroup) change)
+    {
+        var (issue, newGroupObj) = change;
+
+        // Remove from old group
+        foreach (var g in Groups)
+        {
+            if (g.Issues.Contains(issue))
+            {
+                g.Issues.Remove(issue);
+                break;
+            }
+        }
+
+        // Add to new group
+        newGroupObj.Issues.Add(issue);
+        issue.GroupID = newGroupObj.Id;
+
+        return Task.CompletedTask;
+    }
+}
