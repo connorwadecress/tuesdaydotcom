@@ -1,132 +1,82 @@
 ﻿@page "/"
-@using System.Globalization
 
 <style>
     .tag-pill {
-        display: inline-block;
-        padding: 1px 6px;
-        margin-right: 5px;
-        border-radius: 12px;
-        font-size: 0.75em;
-        color: #fff;
-        white-space: nowrap;
+        display:inline-block;
+        margin-right:4px;
+        padding:2px 6px;
+        border-radius:4px;
+        color:white;
+        font-size:0.85em;
+        white-space:nowrap;
     }
-
-    .project-row {
-        cursor: pointer;
-        height: 40px; /* Fixed height */
-        overflow: hidden;
-    }
-
-    .project-row td {
-        padding: 0 8px;
-        height: 40px; /* Match fixed height */
-        vertical-align: middle;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-    }
-
-    .table-full-page {
-        width: 100%;
-    }
-
-    .table th {
-        padding: 6px 8px;
-        height: 40px;
-        vertical-align: middle;
-    }
-
-    .project-row:hover {
-        background-color: #2c2c2c;
-    }
+    .project-row { cursor:pointer; transition:background-color .2s }
+    .project-row:hover { background:#343a40 }
 </style>
 
-<div style="background-color:#1a1a1a; color:#ffffff; min-height:100vh; padding: 2rem;">
-    <!-- heading row with + button -->
-    <div style="display:flex; align-items:center; justify-content:space-between;" class="mb-4">
+<div style="background:#1a1a1a;color:#fff;min-height:100vh;padding:2rem;">
+    <div class="d-flex align-items-center justify-content-between mb-4">
         <h1 class="display-4 m-0">My Projects</h1>
-
-        <!-- + button (inherits your page colors) -->
-        <button style="background:none; border:1px solid #ffffff; color:#ffffff; width:38px; height:38px; font-size:1.5rem; line-height:1;"
-                title="Add project"
-                @onclick="AddProject">
-            +
-        </button>
+        <button class="btn btn-outline-light p-0"
+                style="width:38px;height:38px;font-size:1.5rem;line-height:1;"
+                title="Add project" @onclick="AddProject">+</button>
     </div>
 
     <div class="d-flex justify-content-end mb-3">
-        <span class="text-secondary">Showing @AllProjects.Count projects</span>
+        <span class="text-secondary">Showing @Projects.Count projects</span>
     </div>
 
-    <table class="table table-dark table-striped table-full-page">
+    <table class="table table-dark table-striped w-100">
         <thead>
             <tr>
-                <th style="width: 30%;">Project Name</th>
-                <th style="width: 30%;">Tags</th>
-                <th style="width: 20%;">Status</th>
-                <th style="width: 20%;">Date</th>
+                <th style="width:30%;">Project Name</th>
+                <th style="width:30%;">Tags</th>
+                <th style="width:20%;">Status</th>
+                <th style="width:20%;">Date</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var project in AllProjects)
+            @foreach (var p in Projects)
             {
-                <tr class="project-row" @onclick="() => OnRowClicked(project)">
-                    <td>@project.Title</td>
-                    <td>
-                        @foreach (var tag in project.Tags)
-                        {
-                            <span class="tag-pill" style="background:@tag.Color">@tag.Text</span>
-                        }
-                    </td>
-                    <td>@project.Status</td>
-                    <td>@project.Date.ToString("MMM d, yyyy", CultureInfo.InvariantCulture)</td>
-                </tr>
+                <RowComponent Title="@p.Title"
+                              Tags="@p.Tags"
+                              TagColors="@p.TagColors"
+                              Status="@p.Status"
+                              Date="@p.Date"
+                              OnClick="() => OnRowClicked(p)" />
             }
         </tbody>
     </table>
 </div>
 
 @code {
-    public record TagDto(string Text, string Color);
-
+    // simple record without TagDto
     public record Project(
         string Title,
         DateTime Date,
-        TagDto[] Tags,
+        List<string> Tags,
+        List<string> TagColors,
         string Status,
-        string? Description = null
-    );
+        string? Description = null);
 
-    private List<Project> AllProjects = new();
+    private List<Project> Projects = new();
 
     protected override void OnInitialized()
     {
-        AllProjects = new List<Project>
-        {
-            new(
+        Projects =
+        [
+            new Project(
                 "Smart Home Controller",
                 new DateTime(2024, 6, 10),
-                new[]
-                {
-                    new TagDto("IoT", "#2ecc71"),
-                    new TagDto("Raspberry Pi", "#3498db"),
-                    new TagDto("C#", "#e67e22")
-                },
-                "Completed"
-            ),
-        };
+                new() { "IoT", "Raspberry Pi", "C#" },
+                new() { "#2ecc71", "#3498db", "#e67e22" },
+                "Completed")
+        ];
     }
 
-    private void OnRowClicked(Project project)
-    {
-        Console.WriteLine($"Project clicked: {project.Title}");
-        // You can navigate or show a modal here
-    }
+    private void OnRowClicked(Project p) =>
+        Console.WriteLine($"Project clicked: {p.Title}");
 
-    private void AddProject()
-    {
-        Console.WriteLine("Add project clicked.");
-        // Open 'new project' form or modal
-    }
+    private void AddProject() =>
+        Console.WriteLine("Add-project clicked.");
 }
