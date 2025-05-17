@@ -22,13 +22,9 @@ where TEntity : DomainObject, new()
         return entity;
     }
 
-    public async Task<TEntity?> GetByIdAsync(int id, CancellationToken cancellationToken )
-    {
-        return await dbContext.Set<TEntity>().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
-    }
+    public async Task<TEntity?> GetByIdAsync(int id, CancellationToken cancellationToken ) =>
+        await dbContext.Set<TEntity>().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
-    public async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken )
-    {
-        return await dbContext.Set<TEntity>().ToListAsync(cancellationToken);
-    }
+    public async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken ) => 
+        await dbContext.Set<TEntity>().ToListAsync(cancellationToken);
 }

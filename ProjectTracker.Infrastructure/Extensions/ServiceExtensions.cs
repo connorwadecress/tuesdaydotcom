@@ -11,6 +11,7 @@ public static class ServiceExtensions
         services.AddDbContext<ProjectTrackerDbContext>(options =>
         {
             options.UseSqlite("Filename=ProjectTracker.db");
+            options.UseLazyLoadingProxies();
         });
     }
 }
