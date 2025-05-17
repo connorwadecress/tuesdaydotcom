@@ -1,23 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\tarun\\source\\repos\\ProjectTracker\\ProjectTracker\\ProjectTracker.csproj": {}
+    "C:\\Users\\ZaneAugustyn\\source\\repos\\tuesdaydotcom\\ProjectTracker\\ProjectTracker.csproj": {}
   },
   "projects": {
-    "C:\\Users\\tarun\\source\\repos\\ProjectTracker\\Model\\ProjectTracker.Model.csproj": {
+    "C:\\Users\\ZaneAugustyn\\source\\repos\\tuesdaydotcom\\Model\\ProjectTracker.Model.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tarun\\source\\repos\\ProjectTracker\\Model\\ProjectTracker.Model.csproj",
+        "projectUniqueName": "C:\\Users\\ZaneAugustyn\\source\\repos\\tuesdaydotcom\\Model\\ProjectTracker.Model.csproj",
         "projectName": "ProjectTracker.Model",
-        "projectPath": "C:\\Users\\tarun\\source\\repos\\ProjectTracker\\Model\\ProjectTracker.Model.csproj",
-        "packagesPath": "C:\\Users\\tarun\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tarun\\source\\repos\\ProjectTracker\\Model\\obj\\",
+        "projectPath": "C:\\Users\\ZaneAugustyn\\source\\repos\\tuesdaydotcom\\Model\\ProjectTracker.Model.csproj",
+        "packagesPath": "C:\\Users\\ZaneAugustyn\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ZaneAugustyn\\source\\repos\\tuesdaydotcom\\Model\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\tarun\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ZaneAugustyn\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -25,10 +26,12 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://pkgs.dev.azure.com/webuycars-code/_packaging/WeBuyCars-Core-Packages/nuget/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
             "projectReferences": {}
           }
         },
@@ -36,10 +39,17 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "Microsoft.EntityFrameworkCore.Analyzers": {
               "target": "Package",
@@ -66,7 +76,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -75,24 +86,25 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.204\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\tarun\\source\\repos\\ProjectTracker\\ProjectTracker.ClassLibrary\\ProjectTracker.ClassLibrary.csproj": {
+    "C:\\Users\\ZaneAugustyn\\source\\repos\\tuesdaydotcom\\ProjectTracker.ClassLibrary\\ProjectTracker.ClassLibrary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tarun\\source\\repos\\ProjectTracker\\ProjectTracker.ClassLibrary\\ProjectTracker.ClassLibrary.csproj",
+        "projectUniqueName": "C:\\Users\\ZaneAugustyn\\source\\repos\\tuesdaydotcom\\ProjectTracker.ClassLibrary\\ProjectTracker.ClassLibrary.csproj",
         "projectName": "ProjectTracker.ClassLibrary",
-        "projectPath": "C:\\Users\\tarun\\source\\repos\\ProjectTracker\\ProjectTracker.ClassLibrary\\ProjectTracker.ClassLibrary.csproj",
-        "packagesPath": "C:\\Users\\tarun\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tarun\\source\\repos\\ProjectTracker\\ProjectTracker.ClassLibrary\\obj\\",
+        "projectPath": "C:\\Users\\ZaneAugustyn\\source\\repos\\tuesdaydotcom\\ProjectTracker.ClassLibrary\\ProjectTracker.ClassLibrary.csproj",
+        "packagesPath": "C:\\Users\\ZaneAugustyn\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ZaneAugustyn\\source\\repos\\tuesdaydotcom\\ProjectTracker.ClassLibrary\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\tarun\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ZaneAugustyn\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -100,13 +112,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://pkgs.dev.azure.com/webuycars-code/_packaging/WeBuyCars-Core-Packages/nuget/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\tarun\\source\\repos\\ProjectTracker\\Model\\ProjectTracker.Model.csproj": {
-                "projectPath": "C:\\Users\\tarun\\source\\repos\\ProjectTracker\\Model\\ProjectTracker.Model.csproj"
+              "C:\\Users\\ZaneAugustyn\\source\\repos\\tuesdaydotcom\\Model\\ProjectTracker.Model.csproj": {
+                "projectPath": "C:\\Users\\ZaneAugustyn\\source\\repos\\tuesdaydotcom\\Model\\ProjectTracker.Model.csproj"
               }
             }
           }
@@ -115,17 +129,25 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "imports": [
             "net461",
             "net462",
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -137,24 +159,25 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.204\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\tarun\\source\\repos\\ProjectTracker\\ProjectTracker\\ProjectTracker.csproj": {
+    "C:\\Users\\ZaneAugustyn\\source\\repos\\tuesdaydotcom\\ProjectTracker\\ProjectTracker.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tarun\\source\\repos\\ProjectTracker\\ProjectTracker\\ProjectTracker.csproj",
+        "projectUniqueName": "C:\\Users\\ZaneAugustyn\\source\\repos\\tuesdaydotcom\\ProjectTracker\\ProjectTracker.csproj",
         "projectName": "ProjectTracker",
-        "projectPath": "C:\\Users\\tarun\\source\\repos\\ProjectTracker\\ProjectTracker\\ProjectTracker.csproj",
-        "packagesPath": "C:\\Users\\tarun\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tarun\\source\\repos\\ProjectTracker\\ProjectTracker\\obj\\",
+        "projectPath": "C:\\Users\\ZaneAugustyn\\source\\repos\\tuesdaydotcom\\ProjectTracker\\ProjectTracker.csproj",
+        "packagesPath": "C:\\Users\\ZaneAugustyn\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ZaneAugustyn\\source\\repos\\tuesdaydotcom\\ProjectTracker\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\tarun\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ZaneAugustyn\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -162,16 +185,18 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://pkgs.dev.azure.com/webuycars-code/_packaging/WeBuyCars-Core-Packages/nuget/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\tarun\\source\\repos\\ProjectTracker\\Model\\ProjectTracker.Model.csproj": {
-                "projectPath": "C:\\Users\\tarun\\source\\repos\\ProjectTracker\\Model\\ProjectTracker.Model.csproj"
+              "C:\\Users\\ZaneAugustyn\\source\\repos\\tuesdaydotcom\\Model\\ProjectTracker.Model.csproj": {
+                "projectPath": "C:\\Users\\ZaneAugustyn\\source\\repos\\tuesdaydotcom\\Model\\ProjectTracker.Model.csproj"
               },
-              "C:\\Users\\tarun\\source\\repos\\ProjectTracker\\ProjectTracker.ClassLibrary\\ProjectTracker.ClassLibrary.csproj": {
-                "projectPath": "C:\\Users\\tarun\\source\\repos\\ProjectTracker\\ProjectTracker.ClassLibrary\\ProjectTracker.ClassLibrary.csproj"
+              "C:\\Users\\ZaneAugustyn\\source\\repos\\tuesdaydotcom\\ProjectTracker.ClassLibrary\\ProjectTracker.ClassLibrary.csproj": {
+                "projectPath": "C:\\Users\\ZaneAugustyn\\source\\repos\\tuesdaydotcom\\ProjectTracker.ClassLibrary\\ProjectTracker.ClassLibrary.csproj"
               }
             }
           }
@@ -180,10 +205,17 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "Expression.Blend.Sdk": {
               "target": "Package",
@@ -222,7 +254,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -234,7 +267,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.204\\RuntimeIdentifierGraph.json"
         }
       }
     }
