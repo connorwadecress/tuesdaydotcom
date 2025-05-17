@@ -1,6 +1,8 @@
 using Blazor.ProjectTracker.Components;
 using MudBlazor.Services;
 using ProjectTracker.Application.Extensions;
+using ProjectTracker.Application.Interfaces.Base;
+using ProjectTracker.Application.Services;
 using ProjectTracker.Infrastructure.Extensions;
 using ProjectTracker.Infrastructure.Init;
 

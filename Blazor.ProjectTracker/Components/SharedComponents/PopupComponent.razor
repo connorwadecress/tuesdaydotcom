@@ -1,5 +1,7 @@
 ﻿@page "/create-project"
+@using global::ProjectTracker.Application.Interfaces
 @rendermode InteractiveServer
+@inject IProjectService ProjectService;
 
 <h2>Create a Project</h2>
 
@@ -41,10 +43,16 @@
             <div class="tag-dropdown">
                 <select id="project-tag" class="form-control" @bind="SelectedTag">
                     <option value="">Add a Tag</option>
-                    <option value="Development">Development</option>
-                    <option value="Design">Design</option>
-                    <option value="Marketing">Marketing</option>
-                    <option value="Research">Research</option>
+                    <option value="IoT">IoT</option>
+                    <option value="Raspberry Pi">Raspberry Pi</option>
+                    <option value="C#">C#</option>
+                    <option value="React">React</option>
+                    <option value="Azure">Azure</option>
+                    <option value="ML">ML</option>
+                    <option value="Flutter">Flutter</option>
+                    <option value="PostgreSQL">PostgreSQL</option>
+                    <option value="Docker">Docker</option>
+                    <option value="Rust">Rust</option>
                 </select>
             </div>
         </div>
@@ -245,7 +253,28 @@
     private DateTime? DeadlineDate { get; set; }
     private string SelectedTag { get; set; } = "";
     private List<string> Tags { get; set; } = new List<string>();
-    private List<Tag> dbTags { get; set; } = [new Tag { Name = "efcore" }, new Tag { Name = "gaming" }];
+
+    private List<Tag> dbTags { get; set; } = new();
+
+    protected override void OnInitialized()
+    {
+        var iotTag = new Tag { Name = "IoT", Color = 0x2ecc71, IsFontBlack = false };
+        var piTag = new Tag { Name = "Raspberry Pi", Color = 0x3498db, IsFontBlack = false };
+        var csharpTag = new Tag { Name = "C#", Color = 0xe67e22, IsFontBlack = true };
+        var reactTag = new Tag { Name = "React", Color = 0x61dafb, IsFontBlack = true };
+        var azureTag = new Tag { Name = "Azure", Color = 0x0078d4, IsFontBlack = true };
+        var mlTag = new Tag { Name = "ML", Color = 0x9b59b6, IsFontBlack = false };
+        var flutterTag = new Tag { Name = "Flutter", Color = 0x42a5f5, IsFontBlack = true };
+        var postgresTag = new Tag { Name = "PostgreSQL", Color = 0x336791, IsFontBlack = false };
+        var dockerTag = new Tag { Name = "Docker", Color = 0x0db7ed, IsFontBlack = true };
+        var rustTag = new Tag { Name = "Rust", Color = 0xde8615, IsFontBlack = true };
+
+        dbTags = new List<Tag>
+        {
+            iotTag, piTag, csharpTag, reactTag, azureTag,
+            mlTag, flutterTag, postgresTag, dockerTag, rustTag
+        };
+    }
 
     private void RemoveTag(string tag)
     {
@@ -274,7 +303,7 @@
         }
     }
 
-    private void CreateProject()
+    private async void CreateProject()
     {
         var newTag = dbTags.FirstOrDefault(tag => tag.Name == SelectedTag);
         var project = new Project
@@ -287,6 +316,7 @@
         };
 
         // Add saving logic here
+        await ProjectService.CreateAsync(project, CancellationToken.None);
 
         // Reset form
         ProjectName = "";
