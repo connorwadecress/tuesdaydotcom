@@ -1,10 +1,10 @@
-﻿@page "/create-{Type}"
+﻿@page "/create-{Type}/{Id}"
 @using global::ProjectTracker.Application.Interfaces
 @rendermode InteractiveServer
 @inject IProjectService ProjectService;
 @inject ITagService TagService
 @inject NavigationManager Navigation
-@inject IGroupService GroupService ;
+@inject IBoardService BoardService;
 @inject IIssueService IssueService;
 
 <h2>Create a @(!string.IsNullOrWhiteSpace(Type) ? Type : "Project")</h2>
@@ -245,6 +245,8 @@
 @code {
     [Parameter]
     public string? Type { get; set; }
+    [Parameter]
+    public string? Id { get; set; }
 
     private string ProjectName { get; set; } = "";
     private string ProjectDescription { get; set; } = "";
@@ -307,12 +309,15 @@
         else if (!string.Equals(Type, "Board", StringComparison.OrdinalIgnoreCase))
         {
             var newTag = dbTags.FirstOrDefault(tag => tag.Name == SelectedTag);
-            var group = new Group
+            var board = new Board
             {
                 Name = ProjectName,
-                
+                ProjectID = Convert.ToInt32(Id),
+                Description = ProjectDescription,
+                DeadlineDate = DeadlineDate,
+                Status = ProjectStatus
             };
-            await GroupService.CreateAsync(group, CancellationToken.None);
+            await BoardService.CreateAsync(board, CancellationToken.None);
         }
         else if (!string.Equals(Type, "Project", StringComparison.OrdinalIgnoreCase))
         {
