@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace ProjectTracker.Model
+namespace WPF.ProjectTracker.Model
 {
     public class ProjectTrackerDBContextFactory : IDesignTimeDbContextFactory<ProjectTrackerDBContext>
     {

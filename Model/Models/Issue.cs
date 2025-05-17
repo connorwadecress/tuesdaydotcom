@@ -1,8 +1,6 @@
-﻿using ProjectTracker.Model.Interfaces;
-using System;
-using System.Collections.Generic;
+﻿using System;
 
-namespace ProjectTracker.Model.Models
+namespace WPF.ProjectTracker.Model.Models
 {
     public class Issue : DomainObjectWithTag, IItem, ILinkedList
     {

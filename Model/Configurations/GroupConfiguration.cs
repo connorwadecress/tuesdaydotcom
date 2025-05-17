@@ -1,8 +1,8 @@
-﻿ using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ProjectTracker.Model.Models;
+using WPF.ProjectTracker.Model.Models;
 
-namespace ProjectTracker.Model.Configurations
+namespace WPF.ProjectTracker.Model.Configurations
 {
     public class GroupConfiguration : IEntityTypeConfiguration<Group>
     {

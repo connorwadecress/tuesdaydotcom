@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using ProjectTracker.Model.Interfaces;
 
-namespace ProjectTracker.Model.Models
+namespace WPF.ProjectTracker.Model.Models
 {
     public class Board : DomainObjectWithTag, IProjectLink, IItem
     {

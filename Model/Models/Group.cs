@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using ProjectTracker.Model.Interfaces;
+﻿using System.Collections.ObjectModel;
 
-namespace ProjectTracker.Model.Models
+namespace WPF.ProjectTracker.Model.Models
 {
     public class Group : DomainObject, ILinkedList
     {

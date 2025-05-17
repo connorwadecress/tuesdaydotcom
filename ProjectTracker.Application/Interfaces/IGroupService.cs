@@ -1,6 +1,6 @@
-namespace ProjectTrakcer.Application.Interfaces;
+using ProjectTracker.Application.Interfaces.Base;
+using ProjectTracker.Domain.Entities;
 
-public interface IGroupService
-{
-    
-}
+namespace ProjectTracker.Application.Interfaces;
+
+public interface IGroupService : IService<Group>;
