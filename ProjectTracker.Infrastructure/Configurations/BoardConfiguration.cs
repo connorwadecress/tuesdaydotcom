@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ProjectTracker.Infrastructure.Entities;
+using ProjectTracker.Domain.Entities;
 
 namespace ProjectTracker.Infrastructure.Configurations
 {

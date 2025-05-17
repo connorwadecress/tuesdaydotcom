@@ -1,4 +1,4 @@
-﻿namespace ProjectTracker.Infrastructure.Entities
+﻿namespace ProjectTracker.Domain.Interfaces
 {
     public interface IItem
     {
