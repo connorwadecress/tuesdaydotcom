@@ -47,16 +47,10 @@
             <div class="tag-dropdown">
                 <select id="project-tag" class="form-control" @bind="SelectedTag">
                     <option value="">Add a Tag</option>
-                    <option value="IoT">IoT</option>
-                    <option value="Raspberry Pi">Raspberry Pi</option>
-                    <option value="C#">C#</option>
-                    <option value="React">React</option>
-                    <option value="Azure">Azure</option>
-                    <option value="ML">ML</option>
-                    <option value="Flutter">Flutter</option>
-                    <option value="PostgreSQL">PostgreSQL</option>
-                    <option value="Docker">Docker</option>
-                    <option value="Rust">Rust</option>
+                    @foreach (var tag in dbTags)
+                    {
+                        <option value="@tag.Name">@tag.Name</option>
+                    }
                 </select>
             </div>
         </div>
