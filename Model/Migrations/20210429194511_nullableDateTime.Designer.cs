@@ -63,7 +63,7 @@ namespace ProjectTracker.Model.Migrations
                     b.ToTable("ProjectTag");
                 });
 
-            modelBuilder.Entity("ProjectTracker.Model.Models.Board", b =>
+            modelBuilder.Entity("WPF.ProjectTracker.Model.Models.Board", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -94,7 +94,7 @@ namespace ProjectTracker.Model.Migrations
                     b.ToTable("Boards");
                 });
 
-            modelBuilder.Entity("ProjectTracker.Model.Models.Group", b =>
+            modelBuilder.Entity("WPF.ProjectTracker.Model.Models.Group", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -116,7 +116,7 @@ namespace ProjectTracker.Model.Migrations
                     b.ToTable("Groups");
                 });
 
-            modelBuilder.Entity("ProjectTracker.Model.Models.Issue", b =>
+            modelBuilder.Entity("WPF.ProjectTracker.Model.Models.Issue", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -147,7 +147,7 @@ namespace ProjectTracker.Model.Migrations
                     b.ToTable("Issues");
                 });
 
-            modelBuilder.Entity("ProjectTracker.Model.Models.Project", b =>
+            modelBuilder.Entity("WPF.ProjectTracker.Model.Models.Project", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -173,7 +173,7 @@ namespace ProjectTracker.Model.Migrations
                     b.ToTable("Projects");
                 });
 
-            modelBuilder.Entity("ProjectTracker.Model.Models.Tag", b =>
+            modelBuilder.Entity("WPF.ProjectTracker.Model.Models.Tag", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -195,13 +195,13 @@ namespace ProjectTracker.Model.Migrations
 
             modelBuilder.Entity("BoardTag", b =>
                 {
-                    b.HasOne("ProjectTracker.Model.Models.Board", null)
+                    b.HasOne("WPF.ProjectTracker.Model.Models.Board", null)
                         .WithMany()
                         .HasForeignKey("BoardsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProjectTracker.Model.Models.Tag", null)
+                    b.HasOne("WPF.ProjectTracker.Model.Models.Tag", null)
                         .WithMany()
                         .HasForeignKey("TagsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -210,13 +210,13 @@ namespace ProjectTracker.Model.Migrations
 
             modelBuilder.Entity("IssueTag", b =>
                 {
-                    b.HasOne("ProjectTracker.Model.Models.Issue", null)
+                    b.HasOne("WPF.ProjectTracker.Model.Models.Issue", null)
                         .WithMany()
                         .HasForeignKey("IssuesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProjectTracker.Model.Models.Tag", null)
+                    b.HasOne("WPF.ProjectTracker.Model.Models.Tag", null)
                         .WithMany()
                         .HasForeignKey("TagsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -225,22 +225,22 @@ namespace ProjectTracker.Model.Migrations
 
             modelBuilder.Entity("ProjectTag", b =>
                 {
-                    b.HasOne("ProjectTracker.Model.Models.Project", null)
+                    b.HasOne("WPF.ProjectTracker.Model.Models.Project", null)
                         .WithMany()
                         .HasForeignKey("ProjectsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProjectTracker.Model.Models.Tag", null)
+                    b.HasOne("WPF.ProjectTracker.Model.Models.Tag", null)
                         .WithMany()
                         .HasForeignKey("TagsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ProjectTracker.Model.Models.Board", b =>
+            modelBuilder.Entity("WPF.ProjectTracker.Model.Models.Board", b =>
                 {
-                    b.HasOne("ProjectTracker.Model.Models.Project", "Project")
+                    b.HasOne("WPF.ProjectTracker.Model.Models.Project", "Project")
                         .WithMany("Boards")
                         .HasForeignKey("ProjectID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -249,9 +249,9 @@ namespace ProjectTracker.Model.Migrations
                     b.Navigation("Project");
                 });
 
-            modelBuilder.Entity("ProjectTracker.Model.Models.Group", b =>
+            modelBuilder.Entity("WPF.ProjectTracker.Model.Models.Group", b =>
                 {
-                    b.HasOne("ProjectTracker.Model.Models.Board", "Board")
+                    b.HasOne("WPF.ProjectTracker.Model.Models.Board", "Board")
                         .WithMany("Groups")
                         .HasForeignKey("BoardID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -260,9 +260,9 @@ namespace ProjectTracker.Model.Migrations
                     b.Navigation("Board");
                 });
 
-            modelBuilder.Entity("ProjectTracker.Model.Models.Issue", b =>
+            modelBuilder.Entity("WPF.ProjectTracker.Model.Models.Issue", b =>
                 {
-                    b.HasOne("ProjectTracker.Model.Models.Group", "Group")
+                    b.HasOne("WPF.ProjectTracker.Model.Models.Group", "Group")
                         .WithMany("Issues")
                         .HasForeignKey("GroupID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -271,17 +271,17 @@ namespace ProjectTracker.Model.Migrations
                     b.Navigation("Group");
                 });
 
-            modelBuilder.Entity("ProjectTracker.Model.Models.Board", b =>
+            modelBuilder.Entity("WPF.ProjectTracker.Model.Models.Board", b =>
                 {
                     b.Navigation("Groups");
                 });
 
-            modelBuilder.Entity("ProjectTracker.Model.Models.Group", b =>
+            modelBuilder.Entity("WPF.ProjectTracker.Model.Models.Group", b =>
                 {
                     b.Navigation("Issues");
                 });
 
-            modelBuilder.Entity("ProjectTracker.Model.Models.Project", b =>
+            modelBuilder.Entity("WPF.ProjectTracker.Model.Models.Project", b =>
                 {
                     b.Navigation("Boards");
                 });
