@@ -30,10 +30,6 @@ using System.Linq;
                 </div>
             }
         }
-
-        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="AddNewProject" Class="m-3">
-            Add Project
-        </MudButton>
     </MudNavMenu>
 </div>
 
@@ -47,10 +43,5 @@ using System.Linq;
     {
         var projectsList = await ProjectService.GetAllAsync(default);
         projects = projectsList.ToList();
-    }
-
-    private async Task AddNewProject()
-    {
-        
     }
 }
