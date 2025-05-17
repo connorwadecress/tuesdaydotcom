@@ -7,10 +7,10 @@ namespace ProjectTracker.Domain.Entities
     {
         public string Name { get; set; } = null!;
 
-        public ObservableCollection<Issue> Issues { get; set; } = [];
+        public virtual ICollection<Issue> Issues { get; set; } = [];
 
         public int BoardID { get; set; }
-        public Board Board { get; set; } = null!;
+        public virtual Board Board { get; set; } = null!;
         public int NextID { get; set; }
     }
 }
