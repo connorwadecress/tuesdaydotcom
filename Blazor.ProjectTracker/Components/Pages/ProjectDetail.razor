@@ -64,14 +64,6 @@
         var allBoards = await BoardService.GetAllAsync(default);
         Boards = allBoards.Where(x => x.ProjectID == ProjectId).ToList();
         Project = await ProjectService.GetByIdAsync(ProjectId, default);
-        Project = new Project()
-        {
-            DateCreated = DateTime.Now,
-            DeadlineDate = DateTime.Now.AddMonths(3),
-            Description = "Guaming",
-            Name = "SANTS",
-            Status = "On Schedule"
-        };
 
         Boards = new List<Board>()
         {
