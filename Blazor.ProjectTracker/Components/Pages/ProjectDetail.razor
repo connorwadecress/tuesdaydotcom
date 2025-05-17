@@ -4,13 +4,52 @@
 @using global::ProjectTracker.Domain.Entities
 @inject IBoardService BoardService
 @inject IProjectService ProjectService;
+<style>
+    .custom-project-title {
+        opacity: 0.8;
+        font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        margin-bottom:40px;
+    }
+</style>
 
-<MudText Typo="Typo.h4">Boards for Project @ProjectId</MudText>
+<div>
+    <MudText Typo="Typo.h4" Class="mb-4 ms-2 custom-project-title">@Project.Name</MudText>
+    <div class="pt-4">
+        <MudPaper Elevation="3" Class="p-4 mb-4 mt-3">
+            <MudGrid>
+                    <MudItem xs="12" sm="10">
+                        <MudText Typo="Typo.subtitle1" Color="Color.Primary" Class="ms-4">Description</MudText>
+                    <MudText Typo="Typo.body1" Class="mt-2 ms-4">@Project.Description</MudText>
+                    </MudItem>
+                <MudItem xs="12" sm="2" Class="d-flex justify-content-end align-items-end">
+                    <div>
+                        <MudText Typo="Typo.subtitle1" Color="Color.Primary">Status</MudText>
+                        <MudChip T="string" Variant="Variant.Text" Color="Color.Success" Class="mt-2">@Project.Status</MudChip>
+                    </div>
+                </MudItem>
+            </MudGrid>
+        </MudPaper>
+    </div>
+</div>
 
-    <MudText Typo="Typo.h6">Name:        @Project.Name</MudText>
-    <MudText Typo="Typo.h6">Description:      @Project.Description</MudText>
-    <MudText Typo="Typo.h6">Status:     @Project.Status</MudText>
-    @* <KanbanBoard Groups="@board.Groups" OnIssueMoved="HandleIssueMoved" /> *@
+<MudPaper Elevation="3" Class="p-4 mb-4 mt-3">
+    <MudGrid>
+        @foreach (var board in Boards)
+        {
+            <MudItem xs="12" sm="10">
+                <RowComponent Title="@board.Name"
+                              Tags="@board.Tags.ToList()"
+                              Status="@board.Status"
+                              Date="@board.DateCreated"
+                              OnClick="() => OnRowClicked(board)" />
+            </MudItem>
+        }
+    </MudGrid>
+</MudPaper>
+
+
 
 @code {
     [Parameter] public int ProjectId { get; set; }
@@ -31,11 +70,28 @@
             Name = "SANTS",
             Status = "On Schedule"
         };
-}
+
+        Boards = new List<Board>()
+        {
+            new Board()
+            {
+                Name = "Board1"
+            },
+            new Board()
+            {
+                Name = "Other Board1"
+            },
+        };
+    }
 
     private Task HandleIssueMoved((Issue issue, Group newGroup) change)
     {
         // Persist the change (optional)
+        return Task.CompletedTask;
+    }
+
+    private Task OnRowClicked(Board board)
+    {
         return Task.CompletedTask;
     }
 }
