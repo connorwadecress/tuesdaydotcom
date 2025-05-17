@@ -11,9 +11,9 @@ namespace ProjectTracker.Domain.Entities
         public DateTime DateCreated { get; set; }
         public DateTime? DeadlineDate { get; set; }
 
-        public ObservableCollection<Group> Groups { get; set; } = [];
+        public virtual ICollection<Group> Groups { get; set; } = [];
 
         public int ProjectID { get; set; }
-        public Project Project { get; set; } = null!;
+        public virtual Project Project { get; set; } = null!;
     }
 }
