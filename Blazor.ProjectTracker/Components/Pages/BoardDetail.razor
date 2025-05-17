@@ -1,12 +1,13 @@
 ﻿@page "/board/{BoardId:int}"
 @using System.Collections.ObjectModel
+@using Blazor.ProjectTracker.Components.SharedComponents.Kanban
 @inject NavigationManager NavigationManager
 
 <MudText Typo="Typo.h4">Demo Board @BoardId</MudText>
 
 @if (Groups != null)
 {
-    <KanbanBoard Groups="@Groups" OnIssueMoved="HandleIssueMoved" />
+    <KanbanBoard Groups="@Groups"  />
 }
 else
 {

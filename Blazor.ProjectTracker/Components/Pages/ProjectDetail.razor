@@ -1,9 +1,12 @@
 ﻿@page "/project/{ProjectId:int}"
+@rendermode InteractiveServer
 @using global::ProjectTracker.Application.Interfaces
 @using global::ProjectTracker.Application.Services
 @using global::ProjectTracker.Domain.Entities
 @inject IBoardService BoardService
 @inject IProjectService ProjectService;
+@inject NavigationManager Navigation
+
 <style>
     .custom-project-title {
         opacity: 0.8;
@@ -42,8 +45,7 @@
                 <RowComponent Title="@board.Name"
                               Tags="@board.Tags.ToList()"
                               Status="@board.Status"
-                              Date="@board.DateCreated"
-                              OnClick="() => OnRowClicked(board)" />
+                              Date="@board.DateCreated" OnClick="() => OnRowClicked(board)" />
             </MudItem>
         }
     </MudGrid>
@@ -92,6 +94,8 @@
 
     private Task OnRowClicked(Board board)
     {
+        Navigation.NavigateTo($"/board/{board.Id}");
         return Task.CompletedTask;
     }
+
 }
