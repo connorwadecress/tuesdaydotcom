@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Model\ProjectTracker.Model.csproj" />
+    <ProjectReference Include="..\Model\WPF.ProjectTracker.Model.csproj" />
   </ItemGroup>
 
 </Project>
