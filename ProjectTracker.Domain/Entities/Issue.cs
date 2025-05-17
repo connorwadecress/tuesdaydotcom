@@ -1,4 +1,6 @@
-﻿namespace ProjectTracker.Infrastructure.Entities
+﻿using ProjectTracker.Domain.Interfaces;
+
+namespace ProjectTracker.Domain.Entities
 {
     public class Issue : DomainObjectWithTag, IItem, ILinkedList
     {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ProjectTracker.Infrastructure.Entities;
+using ProjectTracker.Domain.Entities;
 
 namespace ProjectTracker.Infrastructure.Configurations
 {
@@ -10,9 +10,9 @@ namespace ProjectTracker.Infrastructure.Configurations
         {
             // One-to-Many Relations
             builder.HasMany<Issue>(g => g.Issues)
-                   .WithOne(i => i.Group)
-                   .HasForeignKey(i => i.GroupID)
-                   .OnDelete(DeleteBehavior.Cascade);
+                .WithOne(i => i.Group)
+                .HasForeignKey(i => i.GroupID)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

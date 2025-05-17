@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
+using ProjectTracker.Domain.Interfaces;
 
-namespace ProjectTracker.Infrastructure.Entities
+namespace ProjectTracker.Domain.Entities
 {
     public class Group : DomainObject, ILinkedList
     {
