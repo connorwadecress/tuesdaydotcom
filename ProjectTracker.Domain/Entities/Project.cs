@@ -9,6 +9,6 @@ namespace ProjectTracker.Domain.Entities
         public DateTime DateCreated { get; set; }
         public DateTime? DeadlineDate { get; set; }
         public string Status { get; set; } = null!;
-        public ICollection<Board> Boards { get; set; } = [];
+        public virtual ICollection<Board> Boards { get; set; } = [];
     }
 }

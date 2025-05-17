@@ -1,8 +1,138 @@
 ﻿@page "/"
+@rendermode InteractiveServer
+@using Blazor.ProjectTracker.Components.SharedComponents
+@using global::ProjectTracker.Domain.Entities
+@inject NavigationManager Navigation
 
-<PageTitle>Home</PageTitle>
+<style>
+    .table-dark { width: 100% !important; }
+    .tag-pill   { display:inline-block;margin-right:4px;padding:2px 6px;border-radius:4px;font-size:.85em;white-space:nowrap;}
 
-<h1>Hello, world!</h1>
-<p>Welcome to your new app.</p>
+    .project-row          { cursor:pointer;transition:background-color .2s ease-in-out;border-bottom:1px solid #444; }
+    .project-row td       { padding:1rem .75rem;vertical-align:middle; }
+    .project-row:hover    { background-color:#2a2a2a; }
+    .project-row:not(:last-child){ box-shadow:inset 0 -1px 0 rgba(255,255,255,.05); }
 
-<NavLink class="btn btn-primary" href="/create-project">Create Project</NavLink>
+    .filter-input { max-width:180px; }
+</style>
+
+<div style="background:#1a1a1a;color:#fff;min-height:100vh;padding:2rem;">
+    <div class="d-flex align-items-center mb-4">
+        <h1 class="display-4 m-0">My Projects</h1>
+        <MudButton Variant="Variant.Outlined" Color="Color.Primary" Class="ms-auto"
+                   Style="width:38px;height:38px;font-size:1.5rem;line-height:1;"
+                   Title="Add project" OnClick="AddProject">+</MudButton>
+    </div>
+
+    <!---- Filter bar -->
+    <div class="d-flex flex-wrap gap-2 mb-3">
+        <input class="form-control filter-input" placeholder="Filter by name"
+               @bind="NameFilter" @bind:after="Refresh" />
+        <select class="form-select filter-input" @bind="StatusFilter" @bind:after="Refresh">
+            <option value="">All statuses</option>
+            @foreach (var status in StatusOptions) { <option>@status</option> }
+        </select>
+        <select class="form-select filter-input" @bind="TagFilter" @bind:after="Refresh">
+            <option value="">All tags</option>
+            @foreach (var tagName in TagOptions) { <option>@tagName</option> }
+        </select>
+        <input type="date" class="form-control filter-input"
+               @bind="DateFilter" @bind:after="Refresh" />
+        <button class="btn btn-sm btn-outline-light" @onclick="ClearFilters">Clear</button>
+
+        <span class="ms-auto align-self-center text-secondary">
+            Showing @ViewData.Count() / @Projects.Count projects
+        </span>
+    </div>
+
+    <table class="table table-dark table-striped w-100">
+        <thead>
+            <tr>
+                <th style="width:30%;">Project Name</th>
+                <th style="width:30%;">Tags</th>
+                <th style="width:20%;">Status</th>
+                <th style="width:20%;">Date Created</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var p in ViewData)
+        {
+            <RowComponent Title="@p.Name"
+                          Tags="@p.Tags.ToList()"
+                          Status="@p.Status"
+                          Date="@p.DateCreated"
+                          OnClick="() => OnRowClicked(p)" />
+        }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    /* ---------------- data ---------------- */
+    private List<Project> Projects = new();
+
+    /* ---------------- filters ---------------- */
+    private string? NameFilter;
+    private string? StatusFilter;
+    private string? TagFilter;
+    private DateTime? DateFilter;
+
+    private IEnumerable<Project> ViewData => Projects.Where(p =>
+        (string.IsNullOrWhiteSpace(NameFilter)   || p.Name.Contains(NameFilter, StringComparison.OrdinalIgnoreCase)) &&
+        (string.IsNullOrWhiteSpace(StatusFilter) || p.Status == StatusFilter) &&
+        (string.IsNullOrWhiteSpace(TagFilter)    || p.Tags.Any(t => t.Name == TagFilter)) &&
+        (!DateFilter.HasValue                    || p.DateCreated.Date == DateFilter.Value.Date));
+
+    private IEnumerable<string> StatusOptions => Projects.Select(p => p.Status).Distinct();
+    private IEnumerable<string> TagOptions    => Projects.SelectMany(p => p.Tags).Select(t => t.Name).Distinct();
+
+    /* ---------------- lifecycle ---------------- */
+    protected override void OnInitialized()
+    {
+        var iotTag      = new Tag { Name = "IoT",          Color = 0x2ecc71, IsFontBlack = false };
+        var piTag       = new Tag { Name = "Raspberry Pi", Color = 0x3498db, IsFontBlack = false };
+        var csharpTag   = new Tag { Name = "C#",           Color = 0xe67e22, IsFontBlack = true  };
+        var reactTag    = new Tag { Name = "React",        Color = 0x61dafb, IsFontBlack = true  };
+        var azureTag    = new Tag { Name = "Azure",        Color = 0x0078d4, IsFontBlack = true  };
+        var mlTag       = new Tag { Name = "ML",           Color = 0x9b59b6, IsFontBlack = false };
+        var flutterTag  = new Tag { Name = "Flutter",      Color = 0x42a5f5, IsFontBlack = true  };
+        var postgresTag = new Tag { Name = "PostgreSQL",   Color = 0x336791, IsFontBlack = false };
+        var dockerTag   = new Tag { Name = "Docker",       Color = 0x0db7ed, IsFontBlack = true  };
+        var rustTag     = new Tag { Name = "Rust",         Color = 0xde8615, IsFontBlack = true  };
+
+        Projects = new()
+        {
+new() { Id = 1, Name = "Smart Home Controller", DateCreated = new(2024, 6, 10), Status = "Completed", Tags = new
+List<Tag> { iotTag, piTag, csharpTag } },
+new() { Id = 2, Name = "Real-time Stock Dashboard", DateCreated = new(2024, 7, 2), Status = "In Progress", Tags = new
+List<Tag> { reactTag, azureTag } },
+new() { Id = 3, Name = "Image Classifier API", DateCreated = new(2024, 8, 15), Status = "Paused", Tags = new List<Tag> {
+mlTag, dockerTag, csharpTag } },
+new() { Id = 4, Name = "Personal Budget Tracker", DateCreated = new(2024, 9, 9), Status = "Completed", Tags = new
+List<Tag> { flutterTag, postgresTag } },
+new() { Id = 5, Name = "IoT Garden Monitor", DateCreated = new(2024,10, 21), Status = "In Progress", Tags = new
+List<Tag> { iotTag, piTag, rustTag } },
+new() { Id = 6, Name = "Chatbot Customer Support", DateCreated = new(2024,11, 30), Status = "Planning", Tags = new
+List<Tag> { mlTag, azureTag, reactTag } },
+new() { Id = 7, Name = "Fitness Habit Tracker", DateCreated = new(2025, 1, 5), Status = "In Review", Tags = new
+List<Tag> { flutterTag, postgresTag } },
+new() { Id = 8, Name = "Serverless Notes App", DateCreated = new(2025, 2, 17), Status = "In Progress", Tags = new
+List<Tag> { azureTag, reactTag } },
+new() { Id = 9, Name = "Containerized Dev Env Setup", DateCreated = new(2025, 3, 8), Status = "Completed", Tags = new
+List<Tag> { dockerTag, rustTag } },
+new() { Id = 10, Name = "Real-time Language Translator",DateCreated = new(2025, 4, 12), Status = "Planning", Tags = new
+List<Tag> { mlTag, csharpTag, azureTag } },
+};
+    }
+
+    /* ---------------- helpers ---------------- */
+    private void Refresh() { /* no-op, binding triggers re-render */ }
+    private void ClearFilters()
+    {
+        NameFilter = StatusFilter = TagFilter = null;
+        DateFilter = null;
+    }
+
+    private void OnRowClicked(Project p) => Navigation.NavigateTo($"/project/{p.Id}");
+    private void AddProject() { /* placeholder */ }
+}
