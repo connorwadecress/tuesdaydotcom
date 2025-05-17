@@ -2,6 +2,8 @@
 @using global::ProjectTracker.Application.Interfaces
 @rendermode InteractiveServer
 @inject IProjectService ProjectService;
+@inject ITagService TagService
+@inject NavigationManager Navigation
 
 <h2>Create a Project</h2>
 
@@ -245,8 +247,6 @@
 </style>
 
 @code {
-    @inject NavigationManager Navigation
-
     private string ProjectName { get; set; } = "";
     private string ProjectDescription { get; set; } = "";
     private string ProjectStatus { get; set; } = "Proposed";
@@ -256,24 +256,10 @@
 
     private List<Tag> dbTags { get; set; } = new();
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        var iotTag = new Tag { Name = "IoT", Color = 0x2ecc71, IsFontBlack = false };
-        var piTag = new Tag { Name = "Raspberry Pi", Color = 0x3498db, IsFontBlack = false };
-        var csharpTag = new Tag { Name = "C#", Color = 0xe67e22, IsFontBlack = true };
-        var reactTag = new Tag { Name = "React", Color = 0x61dafb, IsFontBlack = true };
-        var azureTag = new Tag { Name = "Azure", Color = 0x0078d4, IsFontBlack = true };
-        var mlTag = new Tag { Name = "ML", Color = 0x9b59b6, IsFontBlack = false };
-        var flutterTag = new Tag { Name = "Flutter", Color = 0x42a5f5, IsFontBlack = true };
-        var postgresTag = new Tag { Name = "PostgreSQL", Color = 0x336791, IsFontBlack = false };
-        var dockerTag = new Tag { Name = "Docker", Color = 0x0db7ed, IsFontBlack = true };
-        var rustTag = new Tag { Name = "Rust", Color = 0xde8615, IsFontBlack = true };
-
-        dbTags = new List<Tag>
-        {
-            iotTag, piTag, csharpTag, reactTag, azureTag,
-            mlTag, flutterTag, postgresTag, dockerTag, rustTag
-        };
+        var tags = await TagService.GetAllAsync(default);
+        dbTags = tags.ToList();
     }
 
     private void RemoveTag(string tag)
