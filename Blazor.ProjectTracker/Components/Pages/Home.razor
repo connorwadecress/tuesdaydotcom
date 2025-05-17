@@ -1,166 +1,132 @@
 ﻿@page "/"
-@using Blazor.ProjectTracker.Components.SharedComponents
 @using System.Globalization
 
-<div class="container-fluid py-3" style="background-color:#1a1a1a;color:#ffffff;min-height:100vh;">
-    <h1 class="display-4 mb-5 ps-2">My Projects</h1>
+<style>
+    .tag-pill {
+        display: inline-block;
+        padding: 1px 6px;
+        margin-right: 5px;
+        border-radius: 12px;
+        font-size: 0.75em;
+        color: #fff;
+        white-space: nowrap;
+    }
 
-    <!-- ───── Filter Controls ───── -->
-    <div class="row mb-4 gx-3 gy-2 align-items-center">
-        <!-- Project name -->
-        <div class="col-4">
-            <div class="input-group">
-                <span class="input-group-text bg-dark border-secondary text-light">
-                    <i class="bi bi-search"></i>
-                </span>
-                <input class="form-control bg-dark border-secondary text-light"
-                       placeholder="Search Projects"
-                       @bind="ProjectNameFilter"
-                       @bind:event="oninput" />
-            </div>
-        </div>
+    .project-row {
+        cursor: pointer;
+        height: 40px; /* Fixed height */
+        overflow: hidden;
+    }
 
-        <!-- Tag -->
-        <div class="col-3">
-            <select class="form-select bg-dark border-secondary text-light"
-                    @bind="SelectedTag"
-                    @bind:event="onchange">
-                <option value="">Tag Filter</option>
-                @foreach (var tag in AllTags.Distinct(StringComparer.OrdinalIgnoreCase).OrderBy(t => t))
-                {
-                    <option value="@tag">@tag</option>
-                }
-            </select>
-        </div>
+    .project-row td {
+        padding: 0 8px;
+        height: 40px; /* Match fixed height */
+        vertical-align: middle;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
 
-        <!-- Status Filter -->
-        <div class="col-3">
-            <select class="form-select bg-dark border-secondary text-light"
-                    @bind="StatusFilter"
-                    @bind:event="onchange">
-                <option value="">Status Filter</option>
-                <option value="Active">Active</option>
-                <option value="Completed">Completed</option>
-                <option value="On Hold">On Hold</option>
-            </select>
-        </div>
+    .table-full-page {
+        width: 100%;
+    }
+
+    .table th {
+        padding: 6px 8px;
+        height: 40px;
+        vertical-align: middle;
+    }
+
+    .project-row:hover {
+        background-color: #2c2c2c;
+    }
+</style>
+
+<div style="background-color:#1a1a1a; color:#ffffff; min-height:100vh; padding: 2rem;">
+    <!-- heading row with + button -->
+    <div style="display:flex; align-items:center; justify-content:space-between;" class="mb-4">
+        <h1 class="display-4 m-0">My Projects</h1>
+
+        <!-- + button (inherits your page colors) -->
+        <button style="background:none; border:1px solid #ffffff; color:#ffffff; width:38px; height:38px; font-size:1.5rem; line-height:1;"
+                title="Add project"
+                @onclick="AddProject">
+            +
+        </button>
     </div>
 
-    <!-- ───── Buttons & Count ───── -->
-    <div class="mb-4 d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
-        <button class="btn btn-outline-light" @onclick="ClearFilters">Clear Filters</button>
-        <span class="text-secondary">Showing @DisplayedProjects.Count of @AllProjects.Count projects</span>
+    <div class="d-flex justify-content-end mb-3">
+        <span class="text-secondary">Showing @AllProjects.Count projects</span>
     </div>
 
-    <!-- ───── Project Rows (using RowComponent) ───── -->
-    @foreach (var project in DisplayedProjects)
-        {
-            <RowComponent Title="@project.Title"
-                          Tags="@project.Tags"
-                          Date="@project.Date" />
-        }
+    <table class="table table-dark table-striped table-full-page">
+        <thead>
+            <tr>
+                <th style="width: 30%;">Project Name</th>
+                <th style="width: 30%;">Tags</th>
+                <th style="width: 20%;">Status</th>
+                <th style="width: 20%;">Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var project in AllProjects)
+            {
+                <tr class="project-row" @onclick="() => OnRowClicked(project)">
+                    <td>@project.Title</td>
+                    <td>
+                        @foreach (var tag in project.Tags)
+                        {
+                            <span class="tag-pill" style="background:@tag.Color">@tag.Text</span>
+                        }
+                    </td>
+                    <td>@project.Status</td>
+                    <td>@project.Date.ToString("MMM d, yyyy", CultureInfo.InvariantCulture)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
 
 @code {
-    public record Project(string Title, DateTime Date, RowComponent.TagDto[] Tags, string Status, string? Description = null);
+    public record TagDto(string Text, string Color);
+
+    public record Project(
+        string Title,
+        DateTime Date,
+        TagDto[] Tags,
+        string Status,
+        string? Description = null
+    );
 
     private List<Project> AllProjects = new();
-    private List<Project> DisplayedProjects = new();
-
-    private string _projectNameFilter = string.Empty;
-    private string _selectedTag       = string.Empty;
-    private string _statusFilter      = string.Empty;
-
-    private string ProjectNameFilter
-    {
-        get => _projectNameFilter;
-        set
-        {
-            if (_projectNameFilter != value)
-            {
-                _projectNameFilter = value;
-                ApplyFilters();
-            }
-        }
-    }
-
-    private string SelectedTag
-    {
-        get => _selectedTag;
-        set
-        {
-            if (_selectedTag != value)
-            {
-                _selectedTag = value;
-                ApplyFilters();
-            }
-        }
-    }
-
-    private string StatusFilter
-    {
-        get => _statusFilter;
-        set
-        {
-            if (_statusFilter != value)
-            {
-                _statusFilter = value;
-                ApplyFilters();
-            }
-        }
-    }
-
-    private IEnumerable<string> AllTags =>
-        AllProjects.SelectMany(p => p.Tags.Select(t => t.Text));
 
     protected override void OnInitialized()
     {
         AllProjects = new List<Project>
         {
-            new("Smart Home Controller", new DateTime(2024, 6, 10),
-                [ new("IoT", "#2ecc71"), new("Raspberry Pi", "#3498db"), new("C#", "#e67e22") ],
-                "Completed", "Home automation system"),
-            new("QBee Query Builder", new DateTime(2024, 9, 30),
-                [ new("Blazor", "#9b59b6"), new("MySQL", "#2980b9"), new("OpenAI", "#27ae60") ],
-                "Active", "Visual SQL query builder"),
-            new("Game Companion App", new DateTime(2025, 1, 14),
-                [ new("Unity", "#34495e"), new("Multiplayer", "#1abc9c"), new("Ranking", "#f39c12") ],
-                "On Hold", "Leaderboard and stats tracker"),
-            new("B2C Auth Flow Redesign", new DateTime(2025, 2, 25),
-                [ new("Azure", "#007fff"), new("Security", "#e74c3c"), new("JWT", "#16a085") ],
-                "Completed", "Improve authentication flows"),
-            new("Senior Services Platform", new DateTime(2025, 3, 18),
-                [ new("Elderly UX", "#8e44ad"), new("Forms", "#f1c40f"), new("CareTech", "#d35400") ],
-                "Active", "Accessible services platform")
+            new(
+                "Smart Home Controller",
+                new DateTime(2024, 6, 10),
+                new[]
+                {
+                    new TagDto("IoT", "#2ecc71"),
+                    new TagDto("Raspberry Pi", "#3498db"),
+                    new TagDto("C#", "#e67e22")
+                },
+                "Completed"
+            ),
         };
-
-        DisplayedProjects = AllProjects.ToList();
     }
 
-    private void ApplyFilters()
+    private void OnRowClicked(Project project)
     {
-        IEnumerable<Project> filtered = AllProjects;
-
-        if (!string.IsNullOrWhiteSpace(ProjectNameFilter))
-            filtered = filtered.Where(p =>
-                p.Title.Contains(ProjectNameFilter, StringComparison.OrdinalIgnoreCase));
-
-        if (!string.IsNullOrWhiteSpace(SelectedTag))
-            filtered = filtered.Where(p =>
-                p.Tags.Any(t =>
-                    string.Equals(t.Text, SelectedTag, StringComparison.OrdinalIgnoreCase)));
-
-        if (!string.IsNullOrWhiteSpace(StatusFilter))
-            filtered = filtered.Where(p =>
-                string.Equals(p.Status, StatusFilter, StringComparison.OrdinalIgnoreCase));
-
-        DisplayedProjects = filtered.ToList();
+        Console.WriteLine($"Project clicked: {project.Title}");
+        // You can navigate or show a modal here
     }
 
-    private void ClearFilters()
+    private void AddProject()
     {
-        _projectNameFilter = _selectedTag = _statusFilter = string.Empty;
-        DisplayedProjects = AllProjects.ToList();
-        DisplayedProjects = new List<Project>();
+        Console.WriteLine("Add project clicked.");
+        // Open 'new project' form or modal
     }
 }

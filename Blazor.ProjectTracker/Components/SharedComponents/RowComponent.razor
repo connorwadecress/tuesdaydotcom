@@ -1,25 +1,36 @@
 ﻿@using System.Globalization
 
-<div class="row-wrapper">
-    <span class="project-title">@Title</span>
-
-    <div class="tag-container">
+<tr @onclick="HandleClick" style="cursor: pointer;" 
+    onmouseover="this.style.backgroundColor='#343a40';" 
+    onmouseout="this.style.backgroundColor='';">
+    <td>@Title</td>
+    <td>
         @foreach (var tag in Tags)
         {
-            <span class="tag-pill" style="background:@tag.Color">@tag.Text</span>
+            <span class="tag-pill" style="background:@tag.Color; margin-right:4px; padding:2px 6px; border-radius:4px; color:white; font-size:0.85em;">
+                @tag.Text
+            </span>
         }
-    </div>
-
-    <span class="project-date">
-        @Date.ToString("MMM d, yyyy", CultureInfo.InvariantCulture)
-    </span>
-</div>
-
+    </td>
+    <td>@Status</td>
+    <td>@Date.ToString("MMM d, yyyy", CultureInfo.InvariantCulture)</td>
+</tr>
 
 @code {
     [Parameter] public string Title { get; set; } = string.Empty;
     [Parameter] public IEnumerable<TagDto> Tags { get; set; } = Array.Empty<TagDto>();
     [Parameter] public DateTime Date { get; set; }
+    [Parameter] public string Status { get; set; } = string.Empty;
+
+    [Parameter] public EventCallback OnClick { get; set; }
+
+    private async Task HandleClick()
+    {
+        if (OnClick.HasDelegate)
+        {
+            await OnClick.InvokeAsync(null);
+        }
+    }
 
     public record TagDto(string Text, string Color);
 }
