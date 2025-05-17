@@ -1,11 +1,13 @@
-﻿@page "/create-project"
+﻿@page "/create-{Type}/{Id}"
 @using global::ProjectTracker.Application.Interfaces
 @rendermode InteractiveServer
 @inject IProjectService ProjectService;
 @inject ITagService TagService
 @inject NavigationManager Navigation
+@inject IBoardService BoardService;
+@inject IIssueService IssueService;
 
-<h2>Create a Project</h2>
+<h2>Create a @(!string.IsNullOrWhiteSpace(Type) ? Type : "Project")</h2>
 
 <div class="popup-container">
     <div class="popup-body">
@@ -45,16 +47,10 @@
             <div class="tag-dropdown">
                 <select id="project-tag" class="form-control" @bind="SelectedTag">
                     <option value="">Add a Tag</option>
-                    <option value="IoT">IoT</option>
-                    <option value="Raspberry Pi">Raspberry Pi</option>
-                    <option value="C#">C#</option>
-                    <option value="React">React</option>
-                    <option value="Azure">Azure</option>
-                    <option value="ML">ML</option>
-                    <option value="Flutter">Flutter</option>
-                    <option value="PostgreSQL">PostgreSQL</option>
-                    <option value="Docker">Docker</option>
-                    <option value="Rust">Rust</option>
+                    @foreach (var tag in dbTags)
+                    {
+                        <option value="@tag.Name">@tag.Name</option>
+                    }
                 </select>
             </div>
         </div>
@@ -247,6 +243,11 @@
 </style>
 
 @code {
+    [Parameter]
+    public string? Type { get; set; }
+    [Parameter]
+    public string? Id { get; set; }
+
     private string ProjectName { get; set; } = "";
     private string ProjectDescription { get; set; } = "";
     private string ProjectStatus { get; set; } = "Proposed";
@@ -291,18 +292,46 @@
 
     private async void CreateProject()
     {
-        var newTag = dbTags.FirstOrDefault(tag => tag.Name == SelectedTag);
-        var project = new Project
-        {
-            Name = ProjectName,
-            Description = ProjectDescription,
-            Status = ProjectStatus,
-            DeadlineDate = DeadlineDate,
-            Tags = newTag is not null ? new List<Tag> { newTag } : new List<Tag>()
-        };
 
         // Add saving logic here
-        await ProjectService.CreateAsync(project, CancellationToken.None);
+        if (!string.Equals(Type, "Issue", StringComparison.OrdinalIgnoreCase))
+        {
+            var newTag = dbTags.FirstOrDefault(tag => tag.Name == SelectedTag);
+            var issue = new Issue
+            {
+                Name = ProjectName,
+                Description = ProjectDescription,
+                DeadlineDate = DeadlineDate,
+                Tags = newTag is not null ? new List<Tag> { newTag } : new List<Tag>()
+            };
+            await IssueService.CreateAsync(issue, CancellationToken.None);
+        }
+        else if (!string.Equals(Type, "Board", StringComparison.OrdinalIgnoreCase))
+        {
+            var newTag = dbTags.FirstOrDefault(tag => tag.Name == SelectedTag);
+            var board = new Board
+            {
+                Name = ProjectName,
+                ProjectID = Convert.ToInt32(Id),
+                Description = ProjectDescription,
+                DeadlineDate = DeadlineDate,
+                Status = ProjectStatus
+            };
+            await BoardService.CreateAsync(board, CancellationToken.None);
+        }
+        else if (!string.Equals(Type, "Project", StringComparison.OrdinalIgnoreCase))
+        {
+            var newTag = dbTags.FirstOrDefault(tag => tag.Name == SelectedTag);
+            var project = new Project
+            {
+                Name = ProjectName,
+                Description = ProjectDescription,
+                Status = ProjectStatus,
+                DeadlineDate = DeadlineDate,
+                Tags = newTag is not null ? new List<Tag> { newTag } : new List<Tag>()
+            };
+            await ProjectService.CreateAsync(project, CancellationToken.None);
+        }
 
         // Reset form
         ProjectName = "";

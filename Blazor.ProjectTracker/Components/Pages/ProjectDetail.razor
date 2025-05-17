@@ -18,7 +18,12 @@
 </style>
 
 <div>
-    <MudText Typo="Typo.h4" Class="mb-4 ms-2 custom-project-title">@Project.Name</MudText>
+    <div class="d-flex align-items-center mb-4">
+        <MudText Typo="Typo.h4" Class="ms-2 custom-project-title m-0">@Project.Name</MudText>
+        <MudButton Variant="Variant.Outlined" Color="Color.Primary" Class="ms-auto"
+                   Style="width:38px;height:38px;font-size:1.5rem;line-height:1;"
+                   Title="Add project" OnClick="()=>AddBoard(Project)">+</MudButton>
+    </div>
     <div class="pt-4">
         <MudPaper Elevation="3" Class="p-4 mb-4 mt-3">
             <MudGrid>
@@ -88,6 +93,11 @@
     {
         Navigation.NavigateTo($"/board/{board.Id}");
         return Task.CompletedTask;
+    }
+
+    private void AddBoard(Project project)
+    { 
+        Navigation.NavigateTo($"/create-board/{project.Id}");
     }
 
 }
