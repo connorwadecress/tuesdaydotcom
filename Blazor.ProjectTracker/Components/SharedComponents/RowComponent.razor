@@ -1,19 +1,33 @@
-﻿@using global::ProjectTracker.Domain.Entities@using System.Globalization
+﻿@using System.Globalization
+@using MudBlazor
 
-<tr @onclick="HandleClick" class="project-row">
-    <td>@Title</td>
-    <td>
-        @foreach (var tag in Tags)
-        {
-            <span class="tag-pill"
-                  style="background:@ToHex(tag.Color); color:@(tag.IsFontBlack ? "black" : "white")">
-                @tag.Name
-            </span>
-        }
-    </td>
-    <td>@Status</td>
-    <td>@Date.ToString("MMM d, yyyy", CultureInfo.InvariantCulture)</td>
-</tr>
+<MudPaper Elevation="2" Class="row-wrapper-modern mb-2 px-4 py-3" @onclick="HandleClick">
+    <MudGrid>
+        <MudItem xs="12" sm="3" Class="d-flex align-items-center">
+            <MudText Typo="Typo.subtitle1" Class="fw-bold">@Title</MudText>
+        </MudItem>
+        <MudItem xs="12" sm="4" Class="tag-container-modern">
+            @foreach (var tag in Tags)
+            {
+                var style = $"background-color:{ToHex(tag.Color)}; color:{(tag.IsFontBlack ? "black" : "white")}";
+                <MudChip T="string" Style="@style"
+                         Size="Size.Small"
+                         Class="me-1 mb-1"
+                         Variant="Variant.Filled">
+                    @tag.Name
+                </MudChip>
+            }
+        </MudItem>
+        <MudItem xs="12" sm="3" Class="d-flex align-items-center">
+            <MudText Typo="Typo.body2">@Status</MudText>
+        </MudItem>
+        <MudItem xs="12" sm="2" Class="d-flex justify-end align-items-center">
+            <MudText Typo="Typo.caption" Color="Color.Secondary">
+                @Date.ToString("MMM d, yyyy", CultureInfo.InvariantCulture)
+            </MudText>
+        </MudItem>
+    </MudGrid>
+</MudPaper>
 
 @code {
     [Parameter] public string Title { get; set; } = string.Empty;

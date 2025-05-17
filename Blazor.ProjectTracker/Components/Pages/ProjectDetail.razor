@@ -4,57 +4,61 @@
 @using global::ProjectTracker.Domain.Entities
 @inject IBoardService BoardService
 @inject IProjectService ProjectService;
-<style>
-    .custom-project-title {
-        opacity: 0.8;
-        font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
-        font-weight: 600;
-        letter-spacing: 0.5px;
-        margin-bottom:40px;
-    }
-</style>
 
-<div>
-    <MudText Typo="Typo.h4" Class="mb-4 ms-2 custom-project-title">@Project.Name</MudText>
-    <div class="pt-4">
-        <MudPaper Elevation="3" Class="p-4 mb-4 mt-3">
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-6">
+    <!-- Project Header -->
+    <MudCard Elevation="4" Class="mb-6 px-6 py-4">
+        <MudCardContent>
+            <MudText Typo="Typo.h4" Class="mb-2">@Project.Name</MudText>
+            <MudText Typo="Typo.body1" Color="Color.Secondary" Class="mb-4">
+                @Project.Description
+            </MudText>
+
+            <MudDivider Class="mb-4" />
+
             <MudGrid>
-                    <MudItem xs="12" sm="10">
-                        <MudText Typo="Typo.subtitle1" Color="Color.Primary" Class="ms-4">Description</MudText>
-                    <MudText Typo="Typo.body1" Class="mt-2 ms-4">@Project.Description</MudText>
-                    </MudItem>
-                <MudItem xs="12" sm="2" Class="d-flex justify-content-end align-items-end">
-                    <div>
-                        <MudText Typo="Typo.subtitle1" Color="Color.Primary">Status</MudText>
-                        <MudChip T="string" Variant="Variant.Text" Color="Color.Success" Class="mt-2">@Project.Status</MudChip>
-                    </div>
+                <MudItem xs="6" sm="4">
+                    <MudText Typo="Typo.subtitle2" Color="Color.Primary">Created</MudText>
+                    <MudText Typo="Typo.body2">@Project.DateCreated.ToString("MMM dd, yyyy")</MudText>
+                </MudItem>
+                <MudItem xs="6" sm="4">
+                    <MudText Typo="Typo.subtitle2" Color="Color.Primary">Deadline</MudText>
+                    <MudText Typo="Typo.body2">@Project.DeadlineDate?.ToString("MMM dd, yyyy")</MudText>
+                </MudItem>
+                <MudItem xs="12" sm="4" Class="d-flex flex-column align-items-end">
+                    <MudText Typo="Typo.subtitle2" Color="Color.Primary">Status</MudText>
+                    <MudChip T="string" Color="Color.Success" Class="mt-1">@Project.Status</MudChip>
                 </MudItem>
             </MudGrid>
-        </MudPaper>
-    </div>
-</div>
+        </MudCardContent>
+    </MudCard>
 
-<MudPaper Elevation="3" Class="p-4 mb-4 mt-3">
-    <MudGrid>
-        @foreach (var board in Boards)
-        {
-            <MudItem xs="12" sm="10">
-                <RowComponent Title="@board.Name"
-                              Tags="@board.Tags.ToList()"
-                              Status="@board.Status"
-                              Date="@board.DateCreated"
-                              OnClick="() => OnRowClicked(board)" />
-            </MudItem>
-        }
-    </MudGrid>
-</MudPaper>
-
-
+    <!-- Boards List -->
+    <MudCard Elevation="4" Class="px-6 py-4">
+        <MudCardContent>
+            <MudText Typo="Typo.h6" Class="mb-3">Boards</MudText>
+            @if (Boards?.Any() == true)
+            {
+                @foreach (var board in Boards)
+                {
+                    <RowComponent Title="@board.Name"
+                                  Tags="@board.Tags.ToList()"
+                                  Status="@board.Status"
+                                  Date="@board.DateCreated"
+                                  OnClick="() => OnRowClicked(board)" />
+                }
+            }
+            else
+            {
+                <MudText Typo="Typo.body2" Color="Color.Secondary">No boards available for this project.</MudText>
+            }
+        </MudCardContent>
+    </MudCard>
+</MudContainer>
 
 @code {
     [Parameter] public int ProjectId { get; set; }
-    public Project Project { get; set; }
-
+    public Project Project { get; set; } = new();
     private List<Board> Boards { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
@@ -62,36 +66,30 @@
         var allBoards = await BoardService.GetAllAsync(default);
         Boards = allBoards.Where(x => x.ProjectID == ProjectId).ToList();
         Project = await ProjectService.GetByIdAsync(ProjectId, default);
-        Project = new Project()
-        {
-            DateCreated = DateTime.Now,
-            DeadlineDate = DateTime.Now.AddMonths(3),
-            Description = "Guaming",
-            Name = "SANTS",
-            Status = "On Schedule"
-        };
 
-        Boards = new List<Board>()
-        {
-            new Board()
+        // Sample fallback data (for testing)
+        Project ??= new Project
             {
-                Name = "Board1"
-            },
-            new Board()
-            {
-                Name = "Other Board1"
-            },
-        };
-    }
+                DateCreated = DateTime.Now,
+                DeadlineDate = DateTime.Now.AddMonths(3),
+                Description = "Guaming",
+                Name = "SANTS",
+                Status = "On Schedule"
+            };
 
-    private Task HandleIssueMoved((Issue issue, Group newGroup) change)
-    {
-        // Persist the change (optional)
-        return Task.CompletedTask;
+        if (!Boards.Any())
+        {
+            Boards = new List<Board>
+            {
+                new Board { Name = "Board1", Status = "Open", Tags = new List<Tag>() },
+                new Board { Name = "Other Board1", Status = "In Progress", Tags = new List<Tag>() }
+            };
+        }
     }
 
     private Task OnRowClicked(Board board)
     {
+        // Navigate or show modal
         return Task.CompletedTask;
     }
 }
