@@ -1,6 +1,6 @@
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using ProjectTracker.Infrastructure.Entities;
+using ProjectTracker.Domain.Entities;
 
 namespace ProjectTracker.Infrastructure;
 

@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectTracker.Infrastructu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectTracker.Application", "ProjectTracker.Application\ProjectTracker.Application.csproj", "{1739EA49-FADA-45D1-8DC0-68AC30215C0E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectTracker.Domain", "ProjectTracker.Domain\ProjectTracker.Domain.csproj", "{6A061565-AFAE-4769-AFA2-1CB441E9875D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -135,6 +137,18 @@ Global
 		{1739EA49-FADA-45D1-8DC0-68AC30215C0E}.Release|x64.Build.0 = Release|Any CPU
 		{1739EA49-FADA-45D1-8DC0-68AC30215C0E}.Release|x86.ActiveCfg = Release|Any CPU
 		{1739EA49-FADA-45D1-8DC0-68AC30215C0E}.Release|x86.Build.0 = Release|Any CPU
+		{6A061565-AFAE-4769-AFA2-1CB441E9875D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A061565-AFAE-4769-AFA2-1CB441E9875D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A061565-AFAE-4769-AFA2-1CB441E9875D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6A061565-AFAE-4769-AFA2-1CB441E9875D}.Debug|x64.Build.0 = Debug|Any CPU
+		{6A061565-AFAE-4769-AFA2-1CB441E9875D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6A061565-AFAE-4769-AFA2-1CB441E9875D}.Debug|x86.Build.0 = Debug|Any CPU
+		{6A061565-AFAE-4769-AFA2-1CB441E9875D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A061565-AFAE-4769-AFA2-1CB441E9875D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A061565-AFAE-4769-AFA2-1CB441E9875D}.Release|x64.ActiveCfg = Release|Any CPU
+		{6A061565-AFAE-4769-AFA2-1CB441E9875D}.Release|x64.Build.0 = Release|Any CPU
+		{6A061565-AFAE-4769-AFA2-1CB441E9875D}.Release|x86.ActiveCfg = Release|Any CPU
+		{6A061565-AFAE-4769-AFA2-1CB441E9875D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -151,5 +165,6 @@ Global
 		{FD618A91-B424-4E62-A5E6-D1FBB9AED519} = {9DFDA9CC-D301-481F-8E2D-5145878611AE}
 		{C30ABE85-3D0D-4263-8670-99AADD25490D} = {989B85FE-31F1-44A3-B9C3-6EDB0D0572A4}
 		{1739EA49-FADA-45D1-8DC0-68AC30215C0E} = {0D30CFC3-B493-48FE-A03D-529E0BAFCA3F}
+		{6A061565-AFAE-4769-AFA2-1CB441E9875D} = {0D30CFC3-B493-48FE-A03D-529E0BAFCA3F}
 	EndGlobalSection
 EndGlobal

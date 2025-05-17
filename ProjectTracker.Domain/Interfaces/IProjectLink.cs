@@ -1,4 +1,6 @@
-﻿namespace ProjectTracker.Infrastructure.Entities
+﻿using ProjectTracker.Domain.Entities;
+
+namespace ProjectTracker.Domain.Interfaces
 {
     public interface IProjectLink
     {
