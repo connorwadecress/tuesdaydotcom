@@ -1,9 +1,14 @@
 ﻿@page "/board/{BoardId:int}"
 @using System.Collections.ObjectModel
 @using Blazor.ProjectTracker.Components.SharedComponents.Kanban
+@using System.Threading
+@using global::ProjectTracker.Application.Interfaces
 @inject NavigationManager NavigationManager
+@inject IBoardService BoardService;
 
-<MudText Typo="Typo.h4">Demo Board @BoardId</MudText>
+<div class="d-flex justify-center my-4">
+    <MudText Typo="Typo.h4">Board @BoardId</MudText>
+</div>
 
 @if (Groups != null)
 {
@@ -21,6 +26,7 @@ else
 
     protected override Task OnInitializedAsync()
     {
+        @* var board = BoardService.GetByIdAsync(BoardId, CancellationToken.None); *@
         // Hardcoded sample issues
         var todo = new Group
         {
